@@ -14,7 +14,7 @@
 
 <script>
 import optionPublicFun from "../../../utils/optionPublic.js";
-// import optionPieFun from "./optionPie.js";
+import optionPieFun from "./optionPie.js";
 // import dataPublicFun from "../../../utils/dataPublic";
 // import getFourModual from "../../../api/modules.js";
 // import requestCommonData from "../../../api/common.js";
@@ -77,16 +77,27 @@ export default {
           ]
         }
       ],
-      checkedVal: ["pie","henan", "pingdingshan"]
+      checkedVal: ["pie","henan", "pingdingshan"],
+      datas: [
+              { value: 5, name: "确诊病例" },
+              { value: 16, name: "疑似病例" },
+              { value: 234, name: "正常" }
+            ]
     };
   },
   created() {
     this.$nextTick(() => {
+       this.setLegendStyle(this.flag);
       this.fourModulesPieCharts();
     });
   },
   mounted() {
-    this.setClient();
+    let nowPath = this.$route.path;
+    if (nowPath == "/whole/proviceInfo") {
+      this.setClient();
+    }else if (nowPath == "/whole") {
+      this.flag = true;
+    }
   },
   methods: {
     setClient() {
@@ -95,49 +106,28 @@ export default {
         : document.body.clientHeight;
       this.clientHeight = clientHeight - 125 + "px";
     },
+    setLegendStyle(flag) {
+      // 设置 legend 样式参数
+      if (flag) {
+        this.pieLgendStyle.weight = "normal";
+        this.pieLgendStyle.size = 9;
+        this.pieLgendStyle.legendRight = "-5";
+      }
+    },
     // pie 数据渲染
     fourModulesPieCharts() {
       this.myChart = new optionPublicFun().init("four-modules-container");
+      let pieObj = this.pieLgendStyle;
+      let opPieFnc = new optionPieFun();
+      let that = this;
       this.myChart.setOption({
-        title: {
-          text: "某站点用户访问来源",
-          subtext: "纯属虚构",
-          left: "center"
-        },
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-          orient: "vertical",
-          right: "10%",
-          top: "center",
-          data: ["确诊病例", "疑似病例", "正常"],
-          textStyle: {
-            color: "white",
-            fontSize: "14"
-          }
-        },
-        series: [
-          {
-            name: "疫情分析",
-            type: "pie",
-            radius: "90%",
-            center: ["50%", "50%"],
-            data: [
-              { value: 5, name: "确诊病例" },
-              { value: 16, name: "疑似病例" },
-              { value: 234, name: "正常" }
-            ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
-              }
-            }
-          }
-        ]
+        tooltip: opPieFnc.firstPieTooltip(pieObj.weight, pieObj.size),
+        legend: opPieFnc.firstPieLegend(
+          pieObj.weight,
+          pieObj.size,
+          pieObj.legendRight
+        ),
+        series: opPieFnc.firstPieSeries(that.datas)
       });
       // 饼图 级联
       this.myChart.on("click", () => {

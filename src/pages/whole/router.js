@@ -4,14 +4,14 @@ import VueRouter from "vue-router";
 import store from "../../store/store.js";
 import * as types from "../../store/types.js";
 
-let Bar =()=>import('../../components/echarts/bar/Bar.vue') ;
 let FourModules =()=>import('../../components/echarts/pie/FourModules.vue');
 let OneModule =()=>import('../../components/echarts/pie/oneModule.vue');
 let Line =()=>import('../../components/echarts/line/Line.vue');
-let Radar =()=>import('../../components/echarts/radar/Radar.vue');
 // import Map from '../../components/echarts/map/Map.vue'
 let Show =()=>import("../../pages/whole/Show.vue");
 let Provice =()=>import('../../components/echarts/map/Provice.vue');
+let Tests =()=>import('../../components/echarts/map/test.vue');
+
 
 
 Vue.use(VueRouter);//全局注册路由
@@ -43,26 +43,22 @@ let routes = [
     component: OneModule
   },
   {
-    path: '/whole/bar',
-    name: '柱形图',
-    component: Bar
-  },
-  {
     path: '/whole/line',
     name: '折线图',
     component: Line
-  },
-  {
-    path: '/whole/radar',
-    name: '雷达图',
-    component: Radar
   },
   {
     // path: '/whole/provice/:cityName',
     path: "/whole/provice",
     name: '城市地图',
     component: Provice
-  }
+  },
+  {
+    // path: '/whole/provice/:cityName',
+    path: "/whole/ab",
+    name: '城市地图',
+    component: Tests
+  },
 ];
 
 // 页面刷新时，重新赋值token

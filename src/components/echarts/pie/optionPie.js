@@ -1,5 +1,5 @@
 import optionPublicFun from '../../../utils/optionPublic.js'
-import dataPieFun from './dataPie.js';
+// import dataPieFun from './dataPie.js';
 
 class optionPieFun {
   constructor(data) {
@@ -13,19 +13,11 @@ class optionPieFun {
    * @author yqf
    * created in 19-11-24
    */
-  firstPieTooltip(weight, size, type) {
+  firstPieTooltip(weight, size) {
     let toolTip = {
       trigger: 'item',
       textStyle: new optionPublicFun().textStyle(weight, size),
-      formatter: (params) => {
-        let allModulesScore = new dataPieFun(this.data).indexAllScore(type);
-        let allSum = 0;
-        for(let i=0;i<allModulesScore.length;i++){
-          allSum += allModulesScore[i];
-        }
-        let indexScore = new dataPieFun(this.data).indexAllScore(type)[params.dataIndex];
-        return params.name + "<br />得分：" + params.value + "分" + "<br/>满分：" + indexScore + "分" + "<br>预期占比：" + (indexScore/allSum)*100 + "%" + "<br>实际占比：" + params.percent + "%" ;
-      }
+      formatter: "{a} <br/>{b} : {c} ({d}%)"
     }
     return toolTip;
   }
@@ -58,13 +50,13 @@ class optionPieFun {
    * @namespace firstPieSeries
    * @param {判断饼图类型} type 
    */
-  firstPieSeries(type) {
+  firstPieSeries(data) {
     let result = [
       {
         type: 'pie',
         radius: '75%',
         center: ['43%', '50%'],
-        data: null,
+        data: data,
         itemStyle: {
           emphasis: {
             shadowBlur: 10,
@@ -74,20 +66,6 @@ class optionPieFun {
         }
       }
     ]
-    let pieFnc = new dataPieFun(this.data);
-    let status = {
-      "first": () => {
-        return pieFnc.fourModuleData()
-      },
-      "second": () => {
-        return pieFnc.subIndexScoreOfModule(this.data)
-      }
-    }
-    if (status[type]) {
-      result[0]['data'] = status[type]();
-    }
-    else
-      throw new Error("firstPieSeries param type is coundn't find");
     return result;
   }
 }

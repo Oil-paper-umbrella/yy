@@ -2,24 +2,60 @@
   <div id="show">
     <!--主体-->
     <div class="main clearfix">
-      <!-- <div class="border-container show-view">
-        <p class="open">
-          <router-link to="/whole/pie" tag="div">
-            <i class="el-icon-full-screen"></i>
-          </router-link>
-        </p>
-        <Pie></Pie>
-        <span class="top-left border-span"></span>
-        <span class="top-right border-span"></span>
-        <span class="bottom-left border-span"></span>
-        <span class="bottom-right border-span"></span>
-      </div> -->
-      <div class=" show-view">
-        <Map></Map>
-        <!-- <span class="top-left border-span"></span>
-        <span class="top-right border-span"></span>
-        <span class="bottom-left border-span"></span>
-        <span class="bottom-right border-span"></span> -->
+      <div class="show-view left">
+        <div class="border-container show-date">
+          <Clock></Clock>
+          <span class="top-left border-span"></span>
+          <span class="top-right border-span"></span>
+          <span class="bottom-left border-span"></span>
+          <span class="bottom-right border-span"></span>
+        </div>
+        <div class="border-container show-pie">
+          <Pie></Pie>
+          <span class="top-left border-span"></span>
+          <span class="top-right border-span"></span>
+          <span class="bottom-left border-span"></span>
+          <span class="bottom-right border-span"></span>
+        </div>
+        <div class="border-container show-line">
+          <Pline></Pline>
+          <span class="top-left border-span"></span>
+          <span class="top-right border-span"></span>
+          <span class="bottom-left border-span"></span>
+          <span class="bottom-right border-span"></span>
+        </div>
+      </div>
+      <div class="show-view center">
+        <div class="border-container show-map">
+          <Map></Map>
+          <span class="top-left border-span"></span>
+          <span class="top-right border-span"></span>
+          <span class="bottom-left border-span"></span>
+          <span class="bottom-right border-span"></span>
+        </div>
+      </div>
+      <div class="show-view right">
+        <div class="border-container show-info">
+          <Rotation></Rotation>
+          <span class="top-left border-span"></span>
+          <span class="top-right border-span"></span>
+          <span class="bottom-left border-span"></span>
+          <span class="bottom-right border-span"></span>
+        </div>
+        <div class="border-container show-table">
+          <Table></Table>
+          <span class="top-left border-span"></span>
+          <span class="top-right border-span"></span>
+          <span class="bottom-left border-span"></span>
+          <span class="bottom-right border-span"></span>
+        </div>
+        <div class="border-container show-radio">
+          <Trend></Trend>
+          <span class="top-left border-span"></span>
+          <span class="top-right border-span"></span>
+          <span class="bottom-left border-span"></span>
+          <span class="bottom-right border-span"></span>
+        </div>
       </div>
       <!-- <div class="border-container show-view">
         <p class="open">
@@ -45,18 +81,7 @@
         <span class="bottom-left border-span"></span>
         <span class="bottom-right border-span"></span>
       </div> -->
-      <!-- <div class="border-container show-view">
-        <p class="open">
-          <router-link to="/whole/line" tag="div">
-            <i class="el-icon-full-screen"></i>
-          </router-link>
-        </p>
-        <Pline></Pline>
-        <span class="top-left border-span"></span>
-        <span class="top-right border-span"></span>
-        <span class="bottom-left border-span"></span>
-        <span class="bottom-right border-span"></span>
-      </div> -->
+
       <!-- <div class="border-container show-view">
         <Trend></Trend>
         <span class="top-left border-span"></span>
@@ -69,12 +94,15 @@
 </template>
 
 <script>
-// let Pie = () => import("../../components/echarts/pie/FourModules.vue");
-// let Bar = () => import("../../components/echarts/bar/Bar.vue");
-// let Pline = () => import("../../components/echarts/line/Line.vue");
+let Pie = () => import("../../components/echarts/pie/FourModules.vue");
+// let Ratio = () => import("../../components/echarts/other/Ratio.vue");
+let Pline = () => import("../../components/echarts/line/Line.vue");
 let Map = () => import("../../components/echarts/map/Map.vue");
 // let Radar = () => import("../../components/echarts/radar/Radar.vue");
-// let Trend = () => import("../../components/echarts/trend/Trend.vue");
+let Trend = () => import("../../components/echarts/trend/Trend.vue");
+let Rotation = () => import("../../components/echarts/other/Rotation.vue");
+let Clock = () => import("../../components/echarts/other/Clock.vue");
+let Table = () => import("../../components/echarts/other/Table.vue");
 export default {
   name: "show",
   props: {
@@ -91,12 +119,13 @@ export default {
     this.getClientHeight();
   },
   components: {
-    // Pie,
-    // Bar,
-    // Pline,
-    // Radar,
+    Rotation,
+    Pie,
+    Clock,
+    Pline,
+    Table,
     Map,
-    // Trend
+    Trend
   },
   methods: {
     getClientHeight() {
@@ -268,14 +297,47 @@ a:active {
     height: 100%;
   }
   .show-view {
-    // width: 30%;
-    // height: 350px;
-    width: 98%;
-    height: 600px;
     float: left;
     color: #00ffff;
-    margin: 1.5%;
+    margin: 1%;
     overflow: inherit;
+  }
+  .left {
+    width: 30%;
+    .show-date {
+      width: 100%;
+      height: 6rem;
+    }
+    .show-line {
+      width: 100%;
+      height: 20rem;
+    }
+    .show-pie {
+      width: 100%;
+      height: 24.7rem;
+    }
+  }
+  .center {
+    width: 40%;
+    .show-map {
+      width: 100%;
+      height: 52.5rem;
+    }
+  }
+  .right {
+    width: 23%;
+    .show-info {
+      width: 100%;
+      height: 15.5rem;
+    }
+    .show-table {
+      width: 100%;
+      height: 15rem;
+    }
+    .show-radio {
+      width: 100%;
+      height: 20rem;
+    }
   }
 }
 </style>

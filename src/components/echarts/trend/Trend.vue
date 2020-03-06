@@ -1,5 +1,9 @@
 <template>
   <div class="trend-chart">
+    <div>
+      <i class="el-icon-arrow-right" style="color: #E6A23C;"></i
+      ><span class="title">出入信息：</span>
+    </div>
     <div id="trend-container"></div>
   </div>
 </template>
@@ -83,6 +87,19 @@ export default {
               color: "#2C4369"
             },
             data: ["89", "37", "66", "75", "46", "55", "35","46", "85","66", "65", "46", "95", "35"]
+          },{
+            name: "实际数据",
+            type: "line",
+            smooth: true,
+            symbol: "none",
+            sampling: "average",
+            itemStyle: {
+              color: "#FF6461"
+            },
+            areaStyle: {
+              color: "#2C4369"
+            },
+            data: ["9", "57", "36", "45", "26", "75", "65","76", "25","46", "45", "86", "25", "65"]
           }
         ]
       };
@@ -98,9 +115,14 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  .title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+  }
   #trend-container {
     width: 100%;
-    height: 100%;
+    height: 93%;
   }
 }
 </style>

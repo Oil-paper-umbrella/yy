@@ -1,6 +1,10 @@
 <template>
   <div class="line-chart" v-bind:style="{ height: clientHeight }">
     <div class="index-menu">
+    <span>
+      <i class="el-icon-arrow-right" style="color: #E6A23C;"></i
+      ><span class="title">出入人数统计：</span>
+    </span>
       <span class="menu-name">指标：</span>
       <el-cascader
         v-model="checkedVal"
@@ -13,11 +17,12 @@
 </template>
 
 <script>
-import dataPublicFun from "../../../utils/dataPublic.js";
-import optionPublicFun from "../../../utils/optionPublic.js";
+// import dataPublicFun from "../../../utils/dataPublic.js";
 // import dataLineFun from "./dataLine.js";
-// import optionLineFun from "./optionLine.js";
-import requestCommonData from "../../../api/common.js";
+// import requestCommonData from "../../../api/common.js";
+const defaultCityName = "河南";
+import optionPublicFun from "../../../utils/optionPublic.js";
+import optionLineFun from "./optionLine.js";
 import getLineChart from "../../../api/line.js";
 require("echarts/lib/chart/line");
 require("echarts/lib/component/tooltip");
@@ -50,7 +55,6 @@ const colors = [
   "#FFFF37",
   "#FF8F59"
 ];
-// const defaultCityName = "河南";
 export default {
   name: "echarts",
   data() {
@@ -74,22 +78,23 @@ export default {
           label: "疑似病例"
         }
       ],
-      checkedVal: ["1"] // 选中的 指标参数 和 季度参数
+      checkedVal: ["1"], // 选中的 指标参数 和 季度参数
+      dates: ["3/1", "3/2", "3/3", "3/4", "3/5", "3/6", "3/7"]
     };
   },
   created() {
     this.$nextTick(() => {
+      this.setLineStyle(this.flag);
       this.lineCharts();
     });
   },
   mounted() {
-    this.setClient();
-    /* let nowPath = this.$route.path;
+    let nowPath = this.$route.path;
     if (nowPath == "/whole/line") {
       this.setClient();
     } else if (nowPath == "/whole") {
       this.flag = true;
-    } */
+    }
     /**
      * APi请求队列
      * */
@@ -102,7 +107,7 @@ export default {
     // this.reqGetInfo(getApi, resApi);
   },
   methods: {
-    async getLineInfo() {
+    /* async getLineInfo() {
       let indexData = await requestCommonData.getAllIndexs();
       this.checkedVal[0] = indexData.data.Allindexs[1].iid;
       let lineData = await getLineChart({
@@ -111,9 +116,7 @@ export default {
       return lineData;
     },
     reqGetInfo(getApi, resApi) {
-      /**
-       * 异步请求数据
-       * */
+      //异步请求数据
       let result = Promise.all(getApi);
       result
         .then(data => {
@@ -135,83 +138,29 @@ export default {
     },
     requestAllIndexs(data) {
       this.allIndexs = new dataPublicFun(data).getAllIndexs("line");
-    },
+    }, */
     lineCharts() {
+      // let opPubFnc = new optionPublicFun();
+      // let daLineFnc = new dataLineFun(data);
       this.myChart = new optionPublicFun().init("line-container");
+      let pd_this = this;
+      let lineObj = this.lineStyle;
+      let opLineFnc = new optionLineFun();
       let option = {
-        tooltip: {
-          trigger: "axis",
-          textStyle: {
-            color: "white",
-            fontSize: "14"
-          },
-          formatter: "确诊人数：<br />" + "{b} <br/>{a}:" + "{c}"
-        },
-        legend: {
-          orient: "vertical",
-          type: "scroll",
-          right: 10,
-          top: "30%",
-          selectedMode: "multiple",
-          selected: selectedCity,
-          textStyle: {
-            color: "white",
-            fontSize: "14"
-          }
-        },
+        tooltip: opLineFnc.lineTooltip(lineObj.weight, lineObj.size),
+        legend: opLineFnc.lineLegend(
+          lineObj.weight,
+          lineObj.size,
+          lineObj.orientData,
+          selectedCity
+        ),
         color: colors,
         grid: {
           bottom: "15%"
         },
-        dataZoom: [
-          {
-            handleStyle: {
-              color: "#fff",
-              shadowBlur: 3,
-              shadowColor: "rgba(0, 0, 0, 0.6)",
-              shadowOffsetX: 2,
-              shadowOffsetY: 2
-            },
-            textStyle: {
-              color: "#fff"
-            },
-            height: 30,
-            bottom: "0"
-          },
-          {
-            type: "inside"
-          }
-        ],
-        xAxis: {
-          axisLine: {
-            show: true,
-            lineStyle: new optionPublicFun().lineStyle("#fff", 1)
-          },
-          axisLabel: {
-            show: true,
-            textStyle: new optionPublicFun().textStyle("normal", 12),
-            nameTextStyle: new optionPublicFun().textStyle("bold", 12)
-          },
-          data: ["3/1", "3/2", "3/3", "3/4", "3/5", "3/6", "3/7"],
-          name: "日期"
-        },
-        yAxis: {
-          type: "value",
-          axisLabel: {
-            formatter: "{value} "
-          },
-          axisLine: {
-            lineStyle: new optionPublicFun().lineStyle("#fff", 1)
-          },
-          textStyle: new optionPublicFun().textStyle("normal", 12),
-          nameTextStyle: new optionPublicFun().textStyle("bold", 12),
-          name: "人数",
-          splitLine: {
-            show: true,
-            lineStyle: new optionPublicFun().lineStyle("#1B283E", 1)
-          },
-          min: 0
-        },
+        dataZoom: opLineFnc.lineDataZoom(lineObj.zoomHeight),
+        xAxis: opLineFnc.lineXaxis(pd_this.dates, "日期"),
+        yAxis: opLineFnc.lineYaxis("人数"),
         series: [
           {
             name: "河南",
@@ -246,9 +195,8 @@ export default {
         ]
       };
       this.myChart.setOption(option);
-      // let pd_this = this;
       // legend发生变化事件
-      /* this.myChart.on("legendselectchanged", function(params) {
+      this.myChart.on("legendselectchanged", function(params) {
         let stack = new optionPublicFun().getStack(params);
         if (stack == 4) {
           pd_this.$message.warning({
@@ -264,7 +212,7 @@ export default {
             )
           );
         }
-      }); */
+      });
     },
 
     setClient() {
@@ -301,6 +249,11 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  .title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+  }
   .index-menu,
   .index-menu:hover {
     display: inline-block !important;

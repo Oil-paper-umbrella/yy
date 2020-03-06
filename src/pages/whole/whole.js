@@ -7,6 +7,8 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios,axios);
 Vue.config.productionTip = false
 
+import axios1 from "axios"
+Vue.prototype.$axios = axios1;
 
 import 'element-ui/lib/theme-chalk/index.css';
 import {
