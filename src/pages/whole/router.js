@@ -9,8 +9,9 @@ let OneModule =()=>import('../../components/echarts/pie/oneModule.vue');
 let Line =()=>import('../../components/echarts/line/Line.vue');
 // import Map from '../../components/echarts/map/Map.vue'
 let Show =()=>import("../../pages/whole/Show.vue");
-let Provice =()=>import('../../components/echarts/map/Provice.vue');
+let Provice =()=>import('../../components/echarts/map/Province.vue');
 let Tests =()=>import('../../components/echarts/map/test.vue');
+let vill =()=>import('../../components/echarts/map/vill.vue');
 
 
 
@@ -49,16 +50,22 @@ let routes = [
   },
   {
     // path: '/whole/provice/:cityName',
-    path: "/whole/provice",
+    path: "/whole/province/:name",
     name: '城市地图',
     component: Provice
   },
   {
     // path: '/whole/provice/:cityName',
-    path: "/whole/ab",
+    path: "/whole/a",
     name: '城市地图',
     component: Tests
   },
+  {
+    // path: '/whole/provice/:cityName',
+    path: "/whole/vil/:id/:name/:json",
+    name: '城市地图',
+    component: vill
+  }
 ];
 
 // 页面刷新时，重新赋值token

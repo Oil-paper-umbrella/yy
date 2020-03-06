@@ -1,29 +1,27 @@
 <template>
-  <div>
-    hh
+  <div class="map-chart" >
+    
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
+import Vue from 'vue'
+import Vuex from 'vuex'
+import axios from 'axios'
 
-Vue.use(VueAxios, axios);
+Vue.use(Vuex)
+Vue.prototype.$ajax = axios
 export default {
-  name: "map-chart",
-  created() {
-    this.test()
+  mounted() {
+    this.$axios({
+      methods: 'get',
+      url: "http://127.0.0.1:8083/a.json"
+    })
+    .then(rs => {
+      console.log("ok",rs);
+    }, rp => {
+      console.log("erro",rp);
+    })
   },
-  methods: {
-    test() {
-      this.$axios.get("../../../static/a.json",{}).then(response => {
-        console.log("ok", response.data);
-      });
-    }
-  }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss"></style>
