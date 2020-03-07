@@ -20,7 +20,8 @@ class optionTrendFun {
           width: 1
         }
       },
-      data: date
+      data: date,
+      name: "日期"
     }
     return xAxis
   }
@@ -55,7 +56,8 @@ class optionTrendFun {
           color: "#1B283E",
           width: 1
         }
-      }
+      },
+      name: "人数"
     }
     return yAxis;
   }
@@ -90,8 +92,8 @@ class optionTrendFun {
    */
   trendSeries(outData, enterData) {
     let series = [
-      this.trendSeriesData("出校园", "#009890",  outData),
-      this.trendSeriesData("进校园", "#FF6461", enterData),
+      this.trendSeriesData("异常人数", "#009890",  outData),
+      this.trendSeriesData("正常人数", "#FF6461", enterData),
     ]
     return series;
   }

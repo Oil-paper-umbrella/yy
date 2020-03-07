@@ -7,7 +7,7 @@ import * as types from "../../store/types.js";
 let Pie =()=>import('../../components/echarts/pie/Pie.vue');
 let Detail =()=>import('../../components/echarts/other/Detail.vue');
 let Line =()=>import('../../components/echarts/line/Line.vue');
-// import Map from '../../components/echarts/map/Map.vue'
+import DetailTable from '../../components/echarts/other/DetailTable.vue'
 let Show =()=>import("../../pages/whole/Show.vue");
 let Provice =()=>import('../../components/echarts/map/Province.vue');
 let County =()=>import('../../components/echarts/map/County.vue');
@@ -32,11 +32,11 @@ let routes = [
     name: '饼图',
     component: Pie
   },
-  /* {
-    path: '/whole/subPie/:time/:module',
-    name: '饼图',
-    component: Detail
-  }, */
+  {
+    path: '/whole/detailTable/:time',
+    name: '人员信息',
+    component: DetailTable
+  },
   {
     path: '/whole/detail',
     name: '饼图',

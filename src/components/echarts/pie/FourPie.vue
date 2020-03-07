@@ -175,7 +175,7 @@ export default {
     },
     pieOptions(name, color) {
       return {
-        series: new optionPieFun().fourPieSeries(name, color, "85%", "95%")
+        series: new optionPieFun().fourPieSeries(name, color, "70%", "95%")
       };
     },
     // pie 数据渲染
@@ -240,7 +240,7 @@ export default {
   }
   .container {
     width: 100%;
-    height: 100%;
+    height: 64%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

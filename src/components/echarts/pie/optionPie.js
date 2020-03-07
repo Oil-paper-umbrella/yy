@@ -44,7 +44,7 @@ class optionPieFun {
     let result = [
       {
         type: 'pie',
-        radius: '80%',
+        radius: '75%',
         center: ['43%', '50%'],
         data: data,
         itemStyle: {

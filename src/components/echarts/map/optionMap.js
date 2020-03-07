@@ -64,7 +64,7 @@ class optionMapFun {
   mapGeo(mapName){
     let geo = {
       map: mapName,
-      zoom: 1.26,
+      zoom: 1.24,
       label: {
         normal: {
           show: true,

@@ -5,15 +5,22 @@
         class="el-icon-arrow-right"
         style="color: #E6A23C;font-weight: bold;"
       ></i
-      ><span class="title">出入人数统计：</span>
+      ><span class="title">温度统计：</span>
     </div>
-    <el-table :data="personNum" border style="width: 100%" class="studentInfo">
-      <el-table-column prop="time" label="统计截止时间" show-overflow-tooltip>
+    <el-table
+      :data="personNum"
+      border
+      style="width: 100%"
+      class="studentInfo"
+      @cell-click="rowClick"
+    >
+      <el-table-column prop="time" label="统计时间" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="outNum" label="外出/人" width="80">
+      <el-table-column prop="unnormal" label="正常/人" width="80">
       </el-table-column>
-      <el-table-column prop="enterNum" label="进入/人" width="80">
+      <el-table-column prop="normal" label="异常/人" width="80">
       </el-table-column>
+      <el-table-column prop="all" label="总人数" width="80"> </el-table-column>
     </el-table>
   </div>
 </template>
@@ -26,22 +33,44 @@ export default {
       myChart: {},
       personNum: [
         {
-          time: "2020-3-6 11:27:03",
-          outNum: "15",
-          enterNum: "10"
+          time: "8:00",
+          unnormal: 10,
+          normal: 10,
+          all: 20
         },
         {
-          time: "2020-3-6 11:27:03",
-          outNum: "15",
-          enterNum: "10"
+          time: "14:00",
+          unnormal: 10,
+          normal: 10,
+          all: 20
         },
         {
-          time: "2020-3-6 11:27:03",
-          outNum: "15",
-          enterNum: "10"
+          time: "19:00",
+          unnormal: 10,
+          normal: 10,
+          all: 20
         }
-      ]
+      ],
+      time: null
     };
+  },
+  created() {
+    this.getDate();
+  },
+  methods: {
+    getDate() {
+      let date = new Date();
+      let month = date.getMonth() + 1;
+      let day = date.getDay() + 1;
+      let time = month + "-" + day;
+      this.time = time;
+    },
+    rowClick() {
+      let that = this;
+      this.$router.push({
+        path: "/whole/detailTable/" + that.time
+      });
+    }
   }
 };
 </script>

@@ -20,6 +20,7 @@ require("echarts/lib/component/grid");
 require("echarts/lib/component/dataZoom");
 import optionPublicFun from "../../../utils/optionPublic.js";
 import optionLineFun from "./optionLine.js";
+import bus from "../../../../public/eventBus.js"
 const defaultCityName = "河南";
 const selectedCity = {
   福建: true,
@@ -55,11 +56,11 @@ export default {
       lineStyle: {
         weight: "bold",
         size: 14,
-        orientData: "vertical",
-        zoomHeight: "30"
+        orientData: "horizontal",
+        zoomHeight: "10"
       },
       flag: false,
-      dates: ["3/1", "3/2", "3/3", "3/4", "3/5", "3/6", "3/7"],
+      dates: ["3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7"],
       datas: [
         {
           name: "河南",
@@ -101,12 +102,9 @@ export default {
     });
   },
   mounted() {
-    let nowPath = this.$route.path;
-    if (nowPath == "/whole/line") {
-      this.setClient();
-    } else if (nowPath == "/whole") {
-      this.flag = true;
-    }
+    bus.$on("cityName", (cityName) => {
+      console.log("oook",cityName);
+    });
   },
   methods: {
     setClient() {
@@ -139,7 +137,7 @@ export default {
         ),
         color: colors,
         grid: {
-          bottom: "15%"
+          bottom: "17%"
         },
         dataZoom: opLineFnc.lineDataZoom(lineObj.zoomHeight),
         xAxis: opLineFnc.lineXaxis(that.dates, "日期"),
@@ -164,6 +162,11 @@ export default {
             )
           );
         }
+      });
+      this.myChart.on("click", params => {
+        this.$router.push({
+          path: "/whole/detailTable/" + params.name
+        });
       });
     },
   }

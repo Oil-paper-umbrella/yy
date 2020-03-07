@@ -36,7 +36,7 @@ class optionLineFun {
           color: '#fff'
         },
         height: zoomHeight,
-        bottom: "0"
+        bottom: 0
       },
       {
         type: 'inside'
@@ -107,6 +107,36 @@ class optionLineFun {
       min: 0
     }
     return yaxis
+  }
+
+  
+  /**
+   * @namespace lineSeriesData
+   * @param {进出方式} name 
+   * @param {数据} data 
+   */
+  lineSeriesData(name, data) {
+    let seriesData = 
+    {
+      name: name,
+      type: "line",
+      stack: "总量",
+      data: data
+    }
+    return seriesData;
+  }
+  /**
+   * @namespace lineSeries
+   * @param {进出方式} name 
+   * @param {线条颜色} itemColor 
+   * @param {数据} data 
+   */
+  lineSeries(unnormalData, normalData) {
+    let series = [
+      this.lineSeriesData("异常人数",  unnormalData),
+      this.lineSeriesData("正常人数", normalData),
+    ]
+    return series;
   }
 }
 

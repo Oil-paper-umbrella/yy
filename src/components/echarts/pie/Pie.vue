@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import bus from "../../../../public/eventBus.js"
 import optionPublicFun from "../../../utils/optionPublic.js";
 import optionPieFun from "./optionPie.js";
 const colors = ["#3893E5", "#F6D54A", "#FF4343"];
@@ -57,6 +58,11 @@ export default {
   created() {
     this.$nextTick(() => {
       this.fourModulesPieCharts();
+    });
+  },
+  mounted(){
+    bus.$on("cityName", (cityName) => {
+      console.log("oook",cityName);
     });
   },
   methods: {

@@ -41,13 +41,6 @@
         </div>
       </div>
       <div class="show-view right">
-        <div class="border-container show-info">
-          <Rotation></Rotation>
-          <span class="top-left border-span"></span>
-          <span class="top-right border-span"></span>
-          <span class="bottom-left border-span"></span>
-          <span class="bottom-right border-span"></span>
-        </div>
         <div class="border-container show-table">
           <Table></Table>
           <span class="top-left border-span"></span>
@@ -105,8 +98,8 @@ let FourPie = () => import("../../components/echarts/pie/FourPie.vue");
 let Pline = () => import("../../components/echarts/line/Line.vue");
 let Map = () => import("../../components/echarts/map/Map.vue");
 // let Radar = () => import("../../components/echarts/radar/Radar.vue");
-let Trend = () => import("../../components/echarts/trend/Trend.vue");
-let Rotation = () => import("../../components/echarts/other/Rotation.vue");
+let Trend = () => import("../../components/echarts/line/TempLine.vue");
+// let Rotation = () => import("../../components/echarts/other/Rotation.vue");
 let Clock = () => import("../../components/echarts/other/Clock.vue");
 let Table = () => import("../../components/echarts/other/Table.vue");
 export default {
@@ -125,7 +118,7 @@ export default {
     this.getClientHeight();
   },
   components: {
-    Rotation,
+    // Rotation,
     Pie,
     Clock,
     Pline,
@@ -310,44 +303,40 @@ a:active {
     overflow: inherit;
   }
   .left {
-    width: 30%;
+    width: 29%;
     .show-date {
       width: 100%;
       height: 6rem;
     }
     .show-line {
       width: 100%;
-      height: 20rem;
+      height: 18rem;
     }
     .show-pie {
       width: 100%;
-      height: 24.7rem;
+      height: 19.7rem;
     }
   }
   .center {
-    width: 40%;
+    width: 39%;
     .show-four-pie {
       width: 100%;
-      height: 10rem;
+      height: 8rem;
     }
     .show-map {
       width: 100%;
-      height: 42.5rem;
+      height: 37rem;
     }
   }
   .right {
-    width: 23%;
-    .show-info {
-      width: 100%;
-      height: 15.5rem;
-    }
+    width: 26%;
     .show-table {
       width: 100%;
-      height: 15rem;
+      height: 16rem;
     }
     .show-radio {
       width: 100%;
-      height: 20rem;
+      height: 28.5rem;
     }
   }
 }

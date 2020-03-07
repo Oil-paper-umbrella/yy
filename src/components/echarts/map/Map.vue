@@ -1,26 +1,73 @@
 <template>
-  <div class="map-chart" v-bind:style="{ height: clientHeight }">
-    <div id="map-container"></div>
+  <div class="map-chart" :style="{ height: clientHeight }">
+    <div class="box">
+      <button class="backBtn" @click="back()">返回上级</button>
+      <div id="map-container" class="chart"></div>
+    </div>
   </div>
 </template>
 
 <script>
-require("echarts/map/js/china.js");
 require("echarts/lib/chart/map");
 require("echarts/lib/component/tooltip");
 require("echarts/lib/component/visualMap");
-require("echarts/lib/chart/pie");
-require("echarts/lib/component/tooltip");
-require("echarts/lib/component/legend");
+import cityMap from "@/js/china-main-city-map.js";
 import optionPublicFun from "../../../utils/optionPublic.js";
+import bus from "../../../../public/eventBus.js";
 import optionMapFun from "./optionMap.js";
+import echarts from "echarts";
+import Vue from "vue";
+import Vuex from "vuex";
+import axios from "axios";
+Vue.use(Vuex);
+Vue.prototype.$ajax = axios;
+//记录父级ID、Name
+var mapStack = [];
+var parentId = null;
+var parentName = null;
 export default {
   name: "map-chart",
   data() {
     return {
       clientHeight: "100%",
       myChart: {},
-      datas: [
+      id: 100000,
+      name: 'china',
+      jsonData: null,
+      mapStack: [],
+      parentId: null,
+      parentName: null,
+      dataXizang: [
+        {
+          name: "拉萨市",
+          value: 0
+        },
+        {
+          name: "日喀则市",
+          value: 54
+        },
+        {
+          name: "昌都市",
+          value: 13
+        },
+        {
+          name: "山南市",
+          value: 40
+        },
+        {
+          name: "那曲地区",
+          value: 75
+        },
+        {
+          name: "阿里地区",
+          value: 13
+        },
+        {
+          name: "林芝市",
+          value: 83
+        }
+      ],
+      dataChina: [
         {
           name: "南海诸岛",
           value: 0
@@ -162,43 +209,192 @@ export default {
           value: 5
         }
       ],
+      dataAli: [
+        {
+          name: "措勤县",
+          value: 0
+        },
+        {
+          name: "噶尔县",
+          value: 54
+        },
+        {
+          name: "改则县",
+          value: 13
+        },
+        {
+          name: "革吉县",
+          value: 40
+        },
+        {
+          name: "普兰县",
+          value: 75
+        },
+        {
+          name: "日土县",
+          value: 13
+        },
+        {
+          name: "札达县",
+          value: 83
+        }
+      ],
+      cityName: 'china'
     };
   },
   created() {
     this.$nextTick(() => {
+      this.name = this.$route.params.name;
       this.mapCharts();
     });
   },
   methods: {
+    back() {
+      if (mapStack.length != 0) {
+        //如果有上级目录则执行
+        let map = mapStack.pop();
+        axios
+          .get("http://127.0.0.1:8083/js/" + map.mapId + ".json", {})
+          .then(response => {
+            this.jsonData = response.data;
+            registerAndsetOption(
+              this.myChart,
+              map.mapId,
+              map.mapName,
+              this.jsonData,
+              this.dataChina,
+              false
+            );
+            //返回上一级后，父级的ID、Name随之改变
+            parentId = map.mapId;
+            parentName = map.mapName;
+          });
+      }
+    },
     mapCharts() {
       this.myChart = new optionPublicFun().init("map-container");
       let that = this;
-      this.myChart.setOption({
-        tooltip: new optionMapFun().mapTooltip(),
-        visualMap: new optionMapFun().mapVisualMap(),
-        geo: new optionMapFun().mapGeo("china"),
-        series: new optionMapFun().mapSeries(that.datas)
-      });
-      this.myChart.on("click", (param) => {
-        this.$router.push({
-          path: "/whole/province/" + param.name
+          bus.$emit("cityName", this.cityName);
+      axios
+        .get("http://127.0.0.1:8083/js/" + that.id + ".json", {})
+        .then(response => {
+          that.mapJson = response.data;
+          that.jsonData = that.mapJson;
+          parentId = that.id;
+          (parentName = "china"), that.request(false, that.dataChina);
+          that.myChart.on("click", params => {
+            that.name = params.name;
+            that.cityName = that.name;
+            console.log("objectsss",params);
+            bus.$emit("cityName", that.cityName);
+            if (that.id) {
+              that.id = cityMap[params.name];
+              that.request(true, that.dataXizang);
+            } else {
+              mapStack = [];
+              parentId = that.id;
+              parentName = that.name;
+              this.$message({
+                showClose: true,
+                message: "已经到底了",
+                type: "warning"
+              });
+            }
+          });
         });
-      });
+    },
+    request(flag, data) {
+      let that = this;
+      axios
+        .get("http://127.0.0.1:8083/js/" + that.id + ".json", {})
+        .then(response => {
+          that.mapJson = response.data;
+          that.jsonData = that.mapJson;
+          registerAndsetOption(
+            that.myChart,
+            that.id,
+            that.name,
+            that.mapJson,
+            data,
+            flag
+          );
+        });
     }
   }
 };
+/**
+ *
+ * @param {*} myChart
+ * @param {*} id        省市县Id
+ * @param {*} name      省市县名称
+ * @param {*} mapJson   地图Json数据
+ * @param {*} flag      是否往mapStack里添加parentId，parentName
+ */
+function registerAndsetOption(myChart, id, name, mapJson, data, flag) {
+  // let that = this;
+  echarts.registerMap(name, mapJson);
+  myChart.setOption({
+    tooltip: new optionMapFun().mapTooltip(),
+    visualMap: new optionMapFun().mapVisualMap(),
+    geo: new optionMapFun().mapGeo(name),
+    series: new optionMapFun().mapSeries(data)
+  });
+  if (flag) {
+    //往mapStack里添加parentId，parentName,返回上一级使用
+    mapStack.push({
+      mapId: parentId,
+      mapName: parentName
+    });
+    parentId = id;
+    parentName = name;
+  }
+}
+/**
+ *
+ * @param {*} myChart
+ * @param {*} id        省市县Id
+ * @param {*} name      省市县名称
+ * @param {*} mapJson   地图Json数据
+ * @param {*} flag      是否往mapStack里添加parentId，parentName
+ */
+/* function initMapData(mapJson) {
+  var mapData = [];
+  for (var i = 0; i < mapJson.features.length; i++) {
+    mapData.push({
+      name: mapJson.features[i].properties.name
+      //id:mapJson.features[i].id
+    });
+  }
+  return mapData;
+} */
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .map-chart {
-  width: 100%;
-  height: 100%;
-  #map-container {
-    width: 100%;
+  .box {
+    position: absolute;
+    width: 90%;
+    height: 80vh;
+    left: 5%;
+    top: 10%;
+  }
+  .chart {
+    position: relative;
     height: 100%;
-    margin: 0;
-    padding: 0;
+    top: 10%;
+  }
+  .backBtn {
+    position: absolute;
+    top: 25%;
+    background-color: #00c298;
+    border: 0;
+    color: #fff;
+    height: 27px;
+    font-family: Microsoft Yahei;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 99;
   }
 }
 </style>
