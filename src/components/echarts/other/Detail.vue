@@ -1,5 +1,5 @@
 <template>
-  <div class="pie-chart" v-bind:style="{ height: clientHeight }">
+  <div class="studentTable" v-bind:style="{ height: clientHeight }">
     <div class="index-menu">
       <span class="menu-name">城市：</span>
       <el-cascader
@@ -10,114 +10,88 @@
     </div>
     <el-table :data="tableData3" border style="width: 100%" class="studentInfo">
       <el-table-column prop="name" label="姓名" width="90"> </el-table-column>
-      <el-table-column prop="temperature" label="体温/℃" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="address" label="住址" width="180"> </el-table-column>
-      <el-table-column prop="Diagnosis" label="是否确诊" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="temperature" label="体温/℃" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column prop="address" label="住址" width="180">
+      </el-table-column>
+      <el-table-column prop="Diagnosis" label="是否确诊" show-overflow-tooltip>
+      </el-table-column>
       <el-table-column prop="outDoor" label="是否外出"> </el-table-column
-      ><el-table-column prop="Contact" label="是否接触患病人员" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="quarantine" label="是否隔离" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="hospitalization" label="是否住院"> </el-table-column>
-      <el-table-column prop="relative" label="亲人是否确诊" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="school" label="是否返平" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="village" label="小区是否有确诊人员"> </el-table-column>
+      ><el-table-column
+        prop="Contact"
+        label="是否接触患病人员"
+        show-overflow-tooltip
+      >
+      </el-table-column>
+      <el-table-column prop="quarantine" label="是否隔离" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column prop="hospitalization" label="是否住院">
+      </el-table-column>
+      <el-table-column
+        prop="relative"
+        label="亲人是否确诊"
+        show-overflow-tooltip
+      >
+      </el-table-column>
+      <el-table-column prop="school" label="是否返平" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column prop="village" label="小区是否有确诊人员">
+      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
-// import optionPublicFun from "../../../utils/optionPublic.js";
-// import optionPieFun from "./optionPie.js";
-// import dataPublicFun from "../../../utils/dataPublic";
-// import getFourModual from "../../../api/modules.js";
-// import requestCommonData from "../../../api/common.js";
-// const colors = ["#FCD85A", "#0084C8", "#D8514B", "#9CCB63"];
-require("echarts/lib/chart/pie");
-require("echarts/lib/component/tooltip");
-require("echarts/lib/component/legend");
 export default {
-  name: "pie-chart",
+  name: "studentTable",
   data() {
     return {
       clientHeight: "100%",
-      myChart: {},
-      flag: false, // 切换legend样式
-      pieLgendStyle: {
-        // legend 样式
-        weight: "bold",
-        size: 14,
-        legendRight: "13%"
-      },
       allTimes: [
         {
-          value: "pie",
-          label: "饼图",
+          value: "henan",
+          label: "河南省",
           children: [
             {
-              value: "henan",
-              label: "河南省",
+              value: "pingdingshan",
+              label: "平顶山市",
               children: [
                 {
-                  value: "pingdingshan",
-                  label: "平顶山市"
+                  value: "all",
+                  label: "所有学生信息"
                 },
                 {
-                  value: "jiaozuo",
-                  label: "焦作市"
+                  value: "aid",
+                  label: "确诊学生信息"
+                },
+                {
+                  value: "aid1",
+                  label: "疑似学生信息"
                 }
               ]
-            }
-          ]
-        },
-        {
-          value: "line",
-          label: "折线图",
-          children: [
+            },
             {
-              value: "henan",
-              label: "河南省",
+              value: "jiaozuo",
+              label: "焦作市",
               children: [
                 {
-                  value: "pingdingshan",
-                  label: "平顶山市",
-                  children: [
-                    {
-                      value: "all",
-                      label: "所有学生信息"
-                    },
-                    {
-                      value: "aid",
-                      label: "确诊学生信息"
-                    },
-                    {
-                      value: "aid1",
-                      label: "疑似学生信息"
-                    }
-                  ]
+                  value: "all",
+                  label: "所有学生信息"
                 },
                 {
-                  value: "jiaozuo",
-                  label: "焦作市",
-                  children: [
-                    {
-                      value: "all",
-                      label: "所有学生信息"
-                    },
-                    {
-                      value: "aid",
-                      label: "确诊学生信息"
-                    },
-                    {
-                      value: "aid1",
-                      label: "疑似学生信息"
-                    }
-                  ]
+                  value: "aid",
+                  label: "确诊学生信息"
+                },
+                {
+                  value: "aid1",
+                  label: "疑似学生信息"
                 }
               ]
             }
           ]
         }
       ],
-      checkedVal: ["line", "henan", "pingdingshan", "all"],
+      checkedVal: ["henan", "pingdingshan", "all"],
       tableData3: [
         {
           temperature: "38.5",
@@ -319,7 +293,6 @@ export default {
   },
   mounted() {
     this.setClient();
-    console.log(this.clientHeight);
   },
   methods: {
     setClient() {
@@ -329,7 +302,7 @@ export default {
       this.clientHeight = clientHeight - 125 + "px";
     }
   },
-  watch: {
+  /* watch: {
     checkedVal: {
       handler: function(val) {
         // let getApi = [getFourModual({ timeid: val[0] })];
@@ -343,27 +316,27 @@ export default {
         }
       }
     }
-  }
+  } */
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-.pie-chart::-webkit-scrollbar {
+.studentTable::-webkit-scrollbar {
   width: 4px;
 }
-.pie-chart::-webkit-scrollbar-thumb {
+.studentTable::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 0;
   background-color: rgba(0, 0, 0, 0.1);
 }
-.pie-chart::-webkit-scrollbar-track {
+.studentTable::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 0;
   background-color: rgba(0, 0, 0, 0.1);
 }
-.pie-chart {
+.studentTable {
   width: 100%;
   height: 100%;
   overflow-y: auto;

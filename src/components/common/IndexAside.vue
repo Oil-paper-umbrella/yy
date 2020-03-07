@@ -10,24 +10,21 @@
       router
       unique-opened
     >
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-monitor"></i>
-          <span slot="title">数据展示</span>
-        </template>
-        <a href="/whole" style="padding-left:55px;" class="el-menu-item">数据展示</a>
-        <el-menu-item v-for="(item,i) in dataMenuList" :key="i" :index="item.route">{{ item.name }}</el-menu-item>
-      </el-submenu>
+      <div class="show">
+        <i class="el-icon-monitor show-icon"></i>
+        <a href="/whole" class="show-data">数据展示</a>
+      </div>
       <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-paperclip"></i>
           <span slot="title">后台管理</span>
         </template>
         <el-menu-item
-          v-for="(item,i) in manageMenuList"
+          v-for="(item, i) in manageMenuList"
           :key="i"
           :index="item.route"
-        >{{ item.name }}</el-menu-item>
+          >{{ item.name }}</el-menu-item
+        >
       </el-submenu>
     </el-menu>
   </div>
@@ -39,17 +36,8 @@ export default {
   name: "index-aside",
   data() {
     return {
-      dataMenuList: [
-        { route: "/cluster", name: "聚类数据显示", type: "child" },
-        { route: "/analysis", name: "分析结果展示", type: "child" }
-      ],
-      manageMenuList: [
-        { route: "/power", name: "权限管理" },
-        { route: "/user", name: "用户管理" },
-        { route: "/role", name: "角色管理" },
-        { route: "/setindex", name: "指标设定" },
-        { route: "/port", name: "数据导入、导出" },
-        { route: "/message", name: "邮件箱" }
+      manageMenuList: [ 
+        { route: "/port", name: "数据导入、导出" }
       ]
     };
   },
@@ -113,6 +101,23 @@ a:hover {
   .el-menu {
     background-color: #111739;
     border: none;
+    .show {
+      width: 100%;
+      margin-left: 11%;
+      .show-icon {
+        display: inline-block;
+        color: #90918d;
+        padding: 0 3px;
+      }
+      .show-data {
+        padding-left: 3%;
+        color: #fff;
+      }
+      .show-data:hover {
+        padding-left: 3%;
+        color: #409eff;
+      }
+    }
     .el-menu-item {
       color: white;
       text-indent: 1em;

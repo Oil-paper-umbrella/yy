@@ -5,7 +5,30 @@ const devServer = {
   https: false, // https:{type:Boolean}
   open: true, //配置自动启动浏览器  http://172.11.11.22:8888/rest/XX/
   hotOnly: true, // 热更新
-  proxy: 'http://127.0.0.1:8083',   // 配置跨域处理,只有一个代理
+  proxy: {'/localhost':{
+    target: 'http://127.0.0.1:8083',
+    ws: true,
+    changeOrigin: true,
+    pathRewrite: {
+      '^/localhost': ''
+    }
+  },
+  '/weather': {
+    target: 'https://www.tianqiapi.com',
+    ws: true,
+    changeOrigin: true,
+    pathRewrite: {
+      '^/weather': ''
+    }
+  },
+  '/yiqing': {
+    target: 'https://lab.isaaclin.cn/',
+    ws: true,
+    changeOrigin: true,
+    pathRewrite: {
+      '^/yiqing': ''
+    }
+  }},   // 配置跨域处理,只有一个代理
   // http://211.69.26.108:8080/dianye/rest/JsonData/allcitys
   // proxy: {
   //   '/dianye/rest/JsonData/FourModual': {

@@ -6,8 +6,6 @@ import * as types from "../../store/types.js";
 let Index = () => import('./view/Index.vue');
 let Login = ()=> import('../login/Login.vue')
 let IndexHome = () => import("../../components/IndexHome.vue")
-let Cluster = () => import('../../components/subcomponents/data/Cluster.vue')
-let Analysis = () => import('../../components/subcomponents/data/Analysis.vue')
 let Power = () => import('../../components/subcomponents/management/Power.vue')
 let SetIndex = () => import('../../components/subcomponents/management/SetIndex.vue');
 let Port = () => import('../../components/subcomponents/management/Port.vue')
@@ -34,16 +32,6 @@ let routes = [
         path: '/home',
         name: '首页',
         component: IndexHome
-      },
-      {
-        path: '/cluster',
-        name: '聚类数据显示',
-        component: Cluster
-      },
-      {
-        path: '/analysis',
-        name: '分析结果展示',
-        component: Analysis
       },
       {
         path: '/power',

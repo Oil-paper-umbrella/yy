@@ -2,7 +2,10 @@
   <!-- 无缝滚动效果 -->
   <div class="marquee-wrap">
     <div>
-      <i class="el-icon-arrow-right" style="color: #E6A23C;"></i
+      <i
+        class="el-icon-arrow-right"
+        style="color: #E6A23C;font-weight: bold;"
+      ></i
       ><span class="title">出入信息：</span>
     </div>
     <ul class="marquee-list" :class="{ 'animate-up': animateUp }">
@@ -18,18 +21,12 @@ export default {
     return {
       animateUp: false,
       listData: [
-        "12***ve 成功邀请12人 已获奖金60元",
-        "l***e 成功邀请5人 已获奖金40元",
-        "l***e 成功邀请1人 已获奖金5元",
-        "12***ve 成功邀请12人 已获奖金60元",
-        "l***e 成功邀请5人 已获奖金40元",
-        "l***e 成功邀请1人 已获奖金5元",
-        "12***ve 成功邀请12人 已获奖金60元",
-        "l***e 成功邀请5人 已获奖金40元",
-        "l***e 成功邀请1人 已获奖金5元",
-        "12***ve 成功邀请12人 已获奖金60元",
-        "l***e 成功邀请5人 已获奖金40元",
-        "l***e 成功邀请1人 已获奖金5元"
+        "10:02 张*三 车牌号：HHHH 进入校园",
+        "10:02 张*三 车牌号：HHHH 进入校园",
+        "10:02 张*三 车牌号：HHHH 进入校园",
+        "10:02 张*三 车牌号：HHHH 进入校园",
+        "10:02 张*三 车牌号：HHHH 进入校园",
+        "10:02 张*三 车牌号：HHHH 进入校园"
       ],
       timer: null
     };
@@ -62,7 +59,7 @@ export default {
   overflow: hidden;
   .title {
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
   }
   .marquee-list {

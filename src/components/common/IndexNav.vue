@@ -49,7 +49,7 @@ export default {
   name: "index-nav",
   data() {
     return {
-      userName: "T-group",
+      userName: "admin",
       content: "" // 搜索框内容
     };
   },

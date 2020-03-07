@@ -1,23 +1,27 @@
 <template>
   <div class="trend-chart">
     <div>
-      <i class="el-icon-arrow-right" style="color: #E6A23C;"></i
-      ><span class="title">出入信息：</span>
+      <i class="el-icon-arrow-right" style="color: #E6A23C;font-weight: bold;"></i
+      ><span class="title">当天出入趋势图：</span>
     </div>
     <div id="trend-container"></div>
   </div>
 </template>
 
 <script>
-import optionPublicFun from "../../../utils/optionPublic.js";
 require("echarts/lib/chart/line")
 require("echarts/lib/component/tooltip")
 require("echarts/lib/component/grid")
+import optionPublicFun from "../../../utils/optionPublic.js";
+import optionTrendFun from "./optionTrend.js";
 export default {
   name: "echarts",
   data() {
     return {
-      myChart: {}
+      myChart: {},
+      date: ["11/1", "11/2", "11/3", "11/4", "11/5", "11/6", "11/7","11/8", "11/9", "11/10", "11/11", "11/12", "11/13", "11/14"],
+      outData: ["89", "37", "66", "75", "46", "55", "35","46", "85","66", "65", "46", "95", "35"],
+      enterData: ["9", "57", "36", "45", "26", "75", "65","76", "25","46", "45", "86", "25", "65"]
     };
   },
   created() {
@@ -28,80 +32,19 @@ export default {
   methods: {
     barCharts() {
       this.myChart = new optionPublicFun().init("trend-container");
+      let opTrendFnc = new optionTrendFun();
+      let that = this;
       let option = {
         tooltip: {
-          trigger: "axis",
-          // position: function(pt) {
-          //   return [pt[0], "10%"];
-          // }
+          trigger: "axis"
         },
-        xAxis: {
-          type: "category",
-          boundaryGap: false,
-          axisLine: {
-            show: true,
-            lineStyle: {
-              color: "#fff",
-              width: 1
-            }
-          },
-          data: ["11/1", "11/2", "11/3", "11/4", "11/5", "11/6", "11/7","11/8", "11/9", "11/10", "11/11", "11/12", "11/13", "11/14"]
-        },
-        grid: {
-          top: '5%',
-          left: '7%',
-          bottom: '8%',
-          right: '1%'
-        },
+        xAxis: opTrendFnc.trendxAxis(that.date),
+        grid: opTrendFnc.trendGrid(),
         axisLabel: {
           color: "#fff"
         },
-        yAxis: {
-          type: "value",
-          axisLine: {
-            show: true,
-            lineStyle: {
-              color: "#fff",
-              width: 1
-            }
-          },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: "#1B283E",
-              width: 1
-            }
-          }
-        },
-        series: [
-          {
-            name: "模拟数据",
-            type: "line",
-            smooth: true,
-            symbol: "none",
-            sampling: "average",
-            itemStyle: {
-              color: "#009890"
-            },
-            areaStyle: {
-              color: "#2C4369"
-            },
-            data: ["89", "37", "66", "75", "46", "55", "35","46", "85","66", "65", "46", "95", "35"]
-          },{
-            name: "实际数据",
-            type: "line",
-            smooth: true,
-            symbol: "none",
-            sampling: "average",
-            itemStyle: {
-              color: "#FF6461"
-            },
-            areaStyle: {
-              color: "#2C4369"
-            },
-            data: ["9", "57", "36", "45", "26", "75", "65","76", "25","46", "45", "86", "25", "65"]
-          }
-        ]
+        yAxis: opTrendFnc.trendyAxis(),
+        series: opTrendFnc.trendSeries(that.outData, that.enterData)
       };
       this.myChart.setOption(option);
     }

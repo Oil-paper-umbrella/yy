@@ -9,18 +9,147 @@ class optionMapFun {
     let tooltip = {
       trigger: 'item',
       formatter: function (e) {
-        return .5 == e.value ? e.name + "：有疑似病例" : e.name + "<br />" + "学生总人数：" + e.value + "<br />" + "确诊病例：" + e.data.val1 + "<br />" + "疑似病例：" + e.data.val2;
+        return .5 == e.value ? e.name + "：有疑似病例" : e.name + "<br />" + "学生总人数：" + e.value;
       },
       textStyle: new optionPublicFun().textStyle("normal"),
     }
     return tooltip;
   }
+   /**
+   * @namespace mapVisualMap
+   */
+  mapVisualMap() {
+    let visualMap = {
+      min: 0,
+      max: 100,
+      left: 0,
+      bottom: 10,
+      showLabel: !0,
+      text: ["高", "低"],
+      pieces: [{
+          gt: 100,
+          label: "> 100 人",
+          color: "#7f1100"
+        },
+        {
+          gte: 10,
+          lte: 100,
+          label: "10 - 100 人",
+          color: "#ff5428"
+        },
+        {
+          gte: 1,
+          lt: 10,
+          label: "1 - 9 人",
+          color: "#ff8c71"
+        },
+        {
+          value: 0,
+          color: "lightgreen"
+        }
+      ],
+      show: true,
+      textStyle: {
+        fontSize: "10",
+        color: "white"
+      }
+    }
+    return visualMap;
+  }
   /**
-   * @namespace mapBarSeries
-   * @param {地图各地市数据} datas 
+   * @namespace mapGeo
+   * @param {展示地图省市名} mapName 
    * @param {排名各地市数据} barData 
    */
-  mapBarSeries(datas, barData) {
+  mapGeo(mapName){
+    let geo = {
+      map: mapName,
+      zoom: 1.26,
+      label: {
+        normal: {
+          show: true,
+          fontSize: "12",
+          color: "rgba(0,0,0,0.7)"
+        }
+      },
+      itemStyle: {
+        normal: {
+          borderColor: "rgba(0, 0, 0, 0.2)"
+        },
+        emphasis: {
+          areaColor: "#f2d5ad",
+          shadowOffsetX: 0,
+          shadowOffsetY: 0,
+          borderWidth: 0
+        }
+      }
+    }
+    return geo;
+  }
+  /**
+   * @namespace mapSeries
+   * @param {数据} data
+   */
+  mapSeries(data){
+    let series = [
+      {
+        type: "map",
+        roam: false,
+        label: {
+          normal: {
+            show: true,
+            textStyle: {
+              color: "#fff"
+            }
+          },
+          emphasis: {
+            color: "red"
+          }
+        },
+        geoIndex: 0,
+        data: data
+      }
+    ]
+    return series;
+  }
+  /**
+   * @namespace mapCountySeries
+   * @param {展示地图省市名} name 
+   * @param {县数据} data 
+   */
+  mapCountySeries(name, data){
+    let series = [
+      {
+        name: "地市名称",
+        type: "map",
+        mapType: name /* // 自定义扩展图表类型 */,
+        roam: false,
+        label: {
+          normal: {
+            show: true
+          },
+          emphasis: {
+            show: true
+          }
+        },
+        itemStyle: {
+          normal: {
+            borderWidth: 0.2 /* //区域边框宽度 */,
+            borderColor: "#009fe8" /* //区域边框颜色 */,
+            areaColor: "#ffefd5"
+          },
+          emphasis: {
+            areaColor: "#FFFFFF"
+          }
+        },
+        showLegendSymbol: true,
+        data: data
+      }
+    ]
+    return series;
+  }
+
+  /* mapBarSeries(datas, barData) {
     let series = [{
         type: "map",
         // top: '10%',
@@ -90,9 +219,6 @@ class optionMapFun {
     ]
     return series;
   }
-  /**
-   * @namespace mapTitle 
-   */
   mapTitle() {
     let title = [{
       show: true,
@@ -106,9 +232,6 @@ class optionMapFun {
     }]
     return title
   }
- /**
-  * @namespace mapBarGrid 地图中柱状图
-  */
   mapBarGrid() {
     let grid = {
       right: 0,
@@ -117,10 +240,6 @@ class optionMapFun {
     }
     return grid;
   }
-  /**
-   * @namespace mapBarYaxis 
-   * @param {yData} 各地市排名后Y轴值
-   */
   mapBarYaxis(yData) {
     let yAxis = {
       type: "category",
@@ -197,6 +316,6 @@ class optionMapFun {
       data: yData
     }
     return yAxis
-  }
+  } */
 }
 export default optionMapFun;

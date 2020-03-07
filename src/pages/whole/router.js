@@ -4,14 +4,13 @@ import VueRouter from "vue-router";
 import store from "../../store/store.js";
 import * as types from "../../store/types.js";
 
-let FourModules =()=>import('../../components/echarts/pie/FourModules.vue');
-let OneModule =()=>import('../../components/echarts/pie/oneModule.vue');
+let Pie =()=>import('../../components/echarts/pie/Pie.vue');
+let Detail =()=>import('../../components/echarts/other/Detail.vue');
 let Line =()=>import('../../components/echarts/line/Line.vue');
 // import Map from '../../components/echarts/map/Map.vue'
 let Show =()=>import("../../pages/whole/Show.vue");
 let Provice =()=>import('../../components/echarts/map/Province.vue');
-let Tests =()=>import('../../components/echarts/map/test.vue');
-let vill =()=>import('../../components/echarts/map/vill.vue');
+let County =()=>import('../../components/echarts/map/County.vue');
 
 
 
@@ -31,17 +30,17 @@ let routes = [
   {
     path: '/whole/proviceInfo',
     name: '饼图',
-    component: FourModules
+    component: Pie
   },
   /* {
     path: '/whole/subPie/:time/:module',
     name: '饼图',
-    component: OneModule
+    component: Detail
   }, */
   {
-    path: '/whole/subPie',
+    path: '/whole/detail',
     name: '饼图',
-    component: OneModule
+    component: Detail
   },
   {
     path: '/whole/line',
@@ -56,15 +55,9 @@ let routes = [
   },
   {
     // path: '/whole/provice/:cityName',
-    path: "/whole/a",
+    path: "/whole/county/:id/:name",
     name: '城市地图',
-    component: Tests
-  },
-  {
-    // path: '/whole/provice/:cityName',
-    path: "/whole/vil/:id/:name/:json",
-    name: '城市地图',
-    component: vill
+    component: County
   }
 ];
 

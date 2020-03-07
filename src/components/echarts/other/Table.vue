@@ -1,13 +1,19 @@
 <template>
   <div class="table-num">
     <div>
-      <i class="el-icon-arrow-right" style="color: #E6A23C;"></i
+      <i
+        class="el-icon-arrow-right"
+        style="color: #E6A23C;font-weight: bold;"
+      ></i
       ><span class="title">出入人数统计：</span>
     </div>
     <el-table :data="personNum" border style="width: 100%" class="studentInfo">
-      <el-table-column prop="time" label="截止时间" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="outNum" label="外出/人" width="80"> </el-table-column>
-      <el-table-column prop="enterNum" label="进入/人" width="80"> </el-table-column>
+      <el-table-column prop="time" label="统计截止时间" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column prop="outNum" label="外出/人" width="80">
+      </el-table-column>
+      <el-table-column prop="enterNum" label="进入/人" width="80">
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -23,11 +29,13 @@ export default {
           time: "2020-3-6 11:27:03",
           outNum: "15",
           enterNum: "10"
-        },{
+        },
+        {
           time: "2020-3-6 11:27:03",
           outNum: "15",
           enterNum: "10"
-        },{
+        },
+        {
           time: "2020-3-6 11:27:03",
           outNum: "15",
           enterNum: "10"

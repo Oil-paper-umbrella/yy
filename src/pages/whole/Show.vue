@@ -26,8 +26,14 @@
         </div>
       </div>
       <div class="show-view center">
-        <div class="border-container show-map">
+        <div class="border-container">
+          
+        <div class="show-four-pie">
+          <FourPie></FourPie>
+        </div>
+        <div class="show-map">
           <Map></Map>
+        </div>
           <span class="top-left border-span"></span>
           <span class="top-right border-span"></span>
           <span class="bottom-left border-span"></span>
@@ -94,8 +100,8 @@
 </template>
 
 <script>
-let Pie = () => import("../../components/echarts/pie/FourModules.vue");
-// let Ratio = () => import("../../components/echarts/other/Ratio.vue");
+let Pie = () => import("../../components/echarts/pie/Pie.vue");
+let FourPie = () => import("../../components/echarts/pie/FourPie.vue");
 let Pline = () => import("../../components/echarts/line/Line.vue");
 let Map = () => import("../../components/echarts/map/Map.vue");
 // let Radar = () => import("../../components/echarts/radar/Radar.vue");
@@ -125,7 +131,8 @@ export default {
     Pline,
     Table,
     Map,
-    Trend
+    Trend,
+    FourPie
   },
   methods: {
     getClientHeight() {
@@ -319,9 +326,13 @@ a:active {
   }
   .center {
     width: 40%;
+    .show-four-pie {
+      width: 100%;
+      height: 10rem;
+    }
     .show-map {
       width: 100%;
-      height: 52.5rem;
+      height: 42.5rem;
     }
   }
   .right {

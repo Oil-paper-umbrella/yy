@@ -14,8 +14,7 @@ class optionLineFun {
   lineTooltip(weight, size) {
     let tooltip = {
       trigger: 'axis',
-      textStyle: new optionPublicFun().textStyle(weight, size),
-      formatter: "确诊人数：<br />" + "{b} <br/>{a}:" + "{c}"
+      textStyle: new optionPublicFun().textStyle(weight, size)
     };
     return tooltip;
   }
