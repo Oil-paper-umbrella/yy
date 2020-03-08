@@ -4,15 +4,9 @@ import VueRouter from "vue-router";
 import store from "../../store/store.js";
 import * as types from "../../store/types.js";
 
-let Pie =()=>import('../../components/echarts/pie/Pie.vue');
-let Detail =()=>import('../../components/echarts/other/Detail.vue');
-let Line =()=>import('../../components/echarts/line/Line.vue');
-import DetailTable from '../../components/echarts/other/DetailTable.vue'
 let Show =()=>import("../../pages/whole/Show.vue");
-let Provice =()=>import('../../components/echarts/map/Province.vue');
-let County =()=>import('../../components/echarts/map/County.vue');
-
-
+let DetailInfo =()=>import ('../../components/echarts/table/DetailInfo.vue');
+let TempPersonInfo =()=>import ('../../components/echarts/table/TempPersonInfo.vue');
 
 Vue.use(VueRouter);//全局注册路由
 
@@ -23,41 +17,14 @@ let routes = [
     component: Show
   },
   {
-    path: "/show",
-    name: 'show',
-    component: Show,
+    path: '/whole/tempPersonInfo/:time',
+    name: 'tempPersonInfo',
+    component: TempPersonInfo
   },
   {
-    path: '/whole/proviceInfo',
-    name: '饼图',
-    component: Pie
-  },
-  {
-    path: '/whole/detailTable/:time',
-    name: '人员信息',
-    component: DetailTable
-  },
-  {
-    path: '/whole/detail',
-    name: '饼图',
-    component: Detail
-  },
-  {
-    path: '/whole/line',
-    name: '折线图',
-    component: Line
-  },
-  {
-    // path: '/whole/provice/:cityName',
-    path: "/whole/province/:name",
-    name: '城市地图',
-    component: Provice
-  },
-  {
-    // path: '/whole/provice/:cityName',
-    path: "/whole/county/:id/:name",
-    name: '城市地图',
-    component: County
+    path: '/whole/detailInfo/:personId',
+    name: 'detailInfo',
+    component: DetailInfo
   }
 ];
 

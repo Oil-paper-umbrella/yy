@@ -11,16 +11,16 @@
 require("echarts/lib/chart/map");
 require("echarts/lib/component/tooltip");
 require("echarts/lib/component/visualMap");
-import cityMap from "@/js/china-main-city-map.js";
-import optionPublicFun from "../../../utils/optionPublic.js";
-import bus from "../../../../public/eventBus.js";
-import optionMapFun from "./optionMap.js";
-import echarts from "echarts";
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 Vue.use(Vuex);
 Vue.prototype.$ajax = axios;
+import echarts from "echarts";
+import optionMapFun from "./optionMap.js";
+import bus from "../../../../public/eventBus.js";
+import cityMap from "@/js/china-main-city-map.js";
+import optionPublicFun from "../../../utils/optionPublic.js";
 //记录父级ID、Name
 var mapStack = [];
 var parentId = null;
@@ -32,214 +32,318 @@ export default {
       clientHeight: "100%",
       myChart: {},
       id: 100000,
-      name: 'china',
+      name: "china",
       jsonData: null,
-      mapStack: [],
-      parentId: null,
-      parentName: null,
+      cityName: "china",
+      dataAli: [
+        {
+          name: "措勤县",
+          value: 0,
+          student: 0,
+          teacher: 0
+        },
+        {
+          name: "噶尔县",
+          value: 54,
+          student: 0,
+          teacher: 0
+        },
+        {
+          name: "改则县",
+          value: 13,
+          student: 0,
+          teacher: 0
+        },
+        {
+          name: "革吉县",
+          value: 40,
+          student: 0,
+          teacher: 0
+        },
+        {
+          name: "普兰县",
+          value: 75,
+          student: 0,
+          teacher: 0
+        },
+        {
+          name: "日土县",
+          value: 13,
+          student: 0,
+          teacher: 0
+        },
+        {
+          name: "札达县",
+          value: 83,
+          student: 0,
+          teacher: 0
+        }
+      ],
       dataXizang: [
         {
           name: "拉萨市",
-          value: 0
+          value: 0,
+          student: 0,
+          teacher: 0
         },
         {
           name: "日喀则市",
-          value: 54
+          value: 54,
+          student: 0,
+          teacher: 0
         },
         {
           name: "昌都市",
-          value: 13
+          value: 13,
+          student: 0,
+          teacher: 0
         },
         {
           name: "山南市",
-          value: 40
+          value: 40,
+          student: 0,
+          teacher: 0
         },
         {
           name: "那曲地区",
-          value: 75
+          value: 75,
+          student: 0,
+          teacher: 0
         },
         {
           name: "阿里地区",
-          value: 13
+          value: 13,
+          student: 0,
+          teacher: 0
         },
         {
           name: "林芝市",
-          value: 83
+          value: 83,
+          student: 0,
+          teacher: 0
         }
       ],
       dataChina: [
         {
           name: "南海诸岛",
-          value: 0
+          value: 0,
+          student: 0,
+          teacher: 0
         },
         {
           name: "北京",
-          value: 54
+          value: 54,
+          student: 0,
+          teacher: 0
         },
         {
           name: "天津",
-          value: 13
+          cityName: "tianjin",
+          value: 13,
+          student: 0,
+          teacher: 0
         },
         {
           name: "上海",
-          value: 40
+          cityName: "shanghai",
+          value: 40,
+          student: 0,
+          teacher: 0
         },
         {
           name: "重庆",
-          value: 75
+          cityName: "chongqing",
+          value: 75,
+          student: 0,
+          teacher: 0
         },
         {
           name: "河北",
-          value: 13
+          cityName: "hebei",
+          value: 13,
+          student: 0,
+          teacher: 0
         },
         {
           name: "河南",
-          value: 83
+          cityName: "henan",
+          value: 83,
+          student: 0,
+          teacher: 0
         },
         {
           name: "云南",
-          value: 11
+          cityName: "yunnan",
+          value: 11,
+          student: 0,
+          teacher: 0
         },
         {
           name: "辽宁",
-          value: 19
+          cityName: "liaoning",
+          value: 19,
+          student: 0,
+          teacher: 0
         },
         {
           name: "黑龙江",
-          value: 15
+          value: 15,
+          student: 0,
+          teacher: 0
         },
         {
           name: "湖南",
-          value: 69
+          value: 69,
+          student: 0,
+          teacher: 0
         },
         {
           name: "安徽",
-          value: 60
+          value: 60,
+          student: 0,
+          teacher: 0
         },
         {
           name: "山东",
-          value: 39
+          value: 39,
+          student: 0,
+          teacher: 0
         },
         {
           name: "新疆",
-          value: 4
+          value: 4,
+          student: 0,
+          teacher: 0
         },
         {
           name: "江苏",
-          value: 31
+          value: 31,
+          student: 0,
+          teacher: 0
         },
         {
           name: "浙江",
-          value: 104
+          value: 104,
+          student: 0,
+          teacher: 0
         },
         {
           name: "江西",
-          value: 36
+          value: 36,
+          student: 0,
+          teacher: 0
         },
         {
           name: "湖北",
-          value: 1052
+          value: 1052,
+          student: 0,
+          teacher: 0
         },
         {
           name: "广西",
-          value: 33
+          value: 33,
+          student: 0,
+          teacher: 0
         },
         {
           name: "甘肃",
-          value: 7
+          value: 7,
+          student: 0,
+          teacher: 0
         },
         {
           name: "山西",
-          value: 9
+          value: 9,
+          student: 0,
+          teacher: 0
         },
         {
           name: "内蒙古",
-          value: 7
+          value: 7,
+          student: 0,
+          teacher: 0
         },
         {
           name: "陕西",
-          value: 22
+          value: 22,
+          student: 0,
+          teacher: 0
         },
         {
           name: "吉林",
-          value: 4
+          value: 4,
+          student: 0,
+          teacher: 0
         },
         {
           name: "福建",
-          value: 18
+          value: 18,
+          student: 0,
+          teacher: 0
         },
         {
           name: "贵州",
-          value: 5
+          value: 5,
+          student: 0,
+          teacher: 0
         },
         {
           name: "广东",
-          value: 98
+          value: 98,
+          student: 0,
+          teacher: 0
         },
         {
           name: "青海",
-          value: 1
+          value: 1,
+          student: 0,
+          teacher: 0
         },
         {
           name: "西藏",
-          value: 0
+          id: "0",
+          citys: "xizang",
+          value: 0,
+          student: 0,
+          teacher: 0
         },
         {
           name: "四川",
-          value: 44
+          value: 44,
+          student: 0,
+          teacher: 0
         },
         {
           name: "宁夏",
-          value: 4
+          value: 4,
+          student: 0,
+          teacher: 0
         },
         {
           name: "海南",
-          value: 22
+          value: 22,
+          student: 0,
+          teacher: 0
         },
         {
           name: "台湾",
-          value: 3
+          value: 3,
+          student: 0,
+          teacher: 0
         },
         {
           name: "香港",
-          value: 5
+          value: 5,
+          student: 0,
+          teacher: 0
         },
         {
           name: "澳门",
-          value: 5
+          value: 5,
+          student: 0,
+          teacher: 0
         }
       ],
-      dataAli: [
-        {
-          name: "措勤县",
-          value: 0
-        },
-        {
-          name: "噶尔县",
-          value: 54
-        },
-        {
-          name: "改则县",
-          value: 13
-        },
-        {
-          name: "革吉县",
-          value: 40
-        },
-        {
-          name: "普兰县",
-          value: 75
-        },
-        {
-          name: "日土县",
-          value: 13
-        },
-        {
-          name: "札达县",
-          value: 83
-        }
-      ],
-      cityName: 'china'
     };
   },
   created() {
@@ -271,10 +375,56 @@ export default {
           });
       }
     },
+    change() {
+      this.dataChina = [
+        {
+          name: "拉萨市",
+          value: 0,
+          student: 0,
+          teacher: 0
+        },
+        {
+          name: "日喀则市",
+          value: 54,
+          student: 0,
+          teacher: 0
+        },
+        {
+          name: "昌都市",
+          value: 13,
+          student: 0,
+          teacher: 0
+        },
+        {
+          name: "山南市",
+          value: 40,
+          student: 0,
+          teacher: 0
+        },
+        {
+          name: "那曲地区",
+          value: 75,
+          student: 0,
+          teacher: 0
+        },
+        {
+          name: "阿里地区",
+          value: 13,
+          student: 0,
+          teacher: 0
+        },
+        {
+          name: "林芝市",
+          value: 83,
+          student: 0,
+          teacher: 0
+        }
+      ];
+    },
     mapCharts() {
-      this.myChart = new optionPublicFun().init("map-container");
       let that = this;
-          bus.$emit("cityName", this.cityName);
+      bus.$emit("cityName", this.cityName);
+      this.myChart = new optionPublicFun().init("map-container");
       axios
         .get("http://127.0.0.1:8083/js/" + that.id + ".json", {})
         .then(response => {
@@ -285,11 +435,11 @@ export default {
           that.myChart.on("click", params => {
             that.name = params.name;
             that.cityName = that.name;
-            console.log("objectsss",params);
             bus.$emit("cityName", that.cityName);
             if (that.id) {
               that.id = cityMap[params.name];
-              that.request(true, that.dataXizang);
+              that.change();
+              that.request(true, that.dataChina);
             } else {
               mapStack = [];
               parentId = that.id;
@@ -331,8 +481,8 @@ export default {
  * @param {*} flag      是否往mapStack里添加parentId，parentName
  */
 function registerAndsetOption(myChart, id, name, mapJson, data, flag) {
-  // let that = this;
   echarts.registerMap(name, mapJson);
+  console.log("map-container", name);
   myChart.setOption({
     tooltip: new optionMapFun().mapTooltip(),
     visualMap: new optionMapFun().mapVisualMap(),
@@ -349,34 +499,13 @@ function registerAndsetOption(myChart, id, name, mapJson, data, flag) {
     parentName = name;
   }
 }
-/**
- *
- * @param {*} myChart
- * @param {*} id        省市县Id
- * @param {*} name      省市县名称
- * @param {*} mapJson   地图Json数据
- * @param {*} flag      是否往mapStack里添加parentId，parentName
- */
-/* function initMapData(mapJson) {
-  var mapData = [];
-  for (var i = 0; i < mapJson.features.length; i++) {
-    mapData.push({
-      name: mapJson.features[i].properties.name
-      //id:mapJson.features[i].id
-    });
-  }
-  return mapData;
-} */
 </script>
 
 <style scoped lang="scss">
 .map-chart {
   .box {
-    position: absolute;
-    width: 90%;
-    height: 80vh;
-    left: 5%;
-    top: 10%;
+    width: 100%;
+    height: 90%;
   }
   .chart {
     position: relative;
@@ -395,6 +524,10 @@ function registerAndsetOption(myChart, id, name, mapJson, data, flag) {
     cursor: pointer;
     border-radius: 5px;
     z-index: 99;
+  }
+  #map-container {
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

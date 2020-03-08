@@ -3,22 +3,25 @@
     <!--主体-->
     <div class="main clearfix">
       <div class="show-view left">
-        <div class="border-container show-date">
-          <Clock></Clock>
+        <!-- 天气模块 -->
+        <div class="border-container show-weather">
+          <Weather></Weather>
           <span class="top-left border-span"></span>
           <span class="top-right border-span"></span>
           <span class="bottom-left border-span"></span>
           <span class="bottom-right border-span"></span>
         </div>
-        <div class="border-container show-pie">
-          <Pie></Pie>
+        <!-- 疫情占比饼图模块 -->
+        <div class="border-container show-blight-pie">
+          <BlightPie></BlightPie>
           <span class="top-left border-span"></span>
           <span class="top-right border-span"></span>
           <span class="bottom-left border-span"></span>
           <span class="bottom-right border-span"></span>
         </div>
+        <!-- 地区人数折线模块 -->
         <div class="border-container show-line">
-          <Pline></Pline>
+          <NumberLine></NumberLine>
           <span class="top-left border-span"></span>
           <span class="top-right border-span"></span>
           <span class="bottom-left border-span"></span>
@@ -27,13 +30,14 @@
       </div>
       <div class="show-view center">
         <div class="border-container">
-          
-        <div class="show-four-pie">
-          <FourPie></FourPie>
-        </div>
-        <div class="show-map">
-          <Map></Map>
-        </div>
+          <!-- 疫病人数饼图模块 -->
+          <div class="show-four-pie">
+            <FourPie></FourPie>
+          </div>
+          <!-- 全校师生分布地图模块 -->
+          <div class="show-map">
+            <Map></Map>
+          </div>
           <span class="top-left border-span"></span>
           <span class="top-right border-span"></span>
           <span class="bottom-left border-span"></span>
@@ -41,6 +45,7 @@
         </div>
       </div>
       <div class="show-view right">
+        <!-- 今日体温测量表格 -->
         <div class="border-container show-table">
           <Table></Table>
           <span class="top-left border-span"></span>
@@ -48,100 +53,47 @@
           <span class="bottom-left border-span"></span>
           <span class="bottom-right border-span"></span>
         </div>
+        <!-- 体温正/异常人数折线模块 -->
         <div class="border-container show-radio">
-          <Trend></Trend>
+          <TempLine></TempLine>
+          <span class="top-left border-span"></span>
+          <span class="top-right border-span"></span>
+          <span class="bottom-left border-span"></span>
+          <span class="bottom-right border-span"></span>
+        </div>
+        <!-- 录入情况饼图模块 -->
+        <div class="border-container show-input">
+          <InputPie></InputPie>
           <span class="top-left border-span"></span>
           <span class="top-right border-span"></span>
           <span class="bottom-left border-span"></span>
           <span class="bottom-right border-span"></span>
         </div>
       </div>
-      <!-- <div class="border-container show-view">
-        <p class="open">
-          <router-link to="/whole/bar" tag="div">
-            <i class="el-icon-full-screen"></i>
-          </router-link>
-        </p>
-        <Bar></Bar>
-        <span class="top-left border-span"></span>
-        <span class="top-right border-span"></span>
-        <span class="bottom-left border-span"></span>
-        <span class="bottom-right border-span"></span>
-      </div> -->
-      <!-- <div class="border-container show-view">
-        <p class="open">
-          <router-link to="/whole/radar" tag="div">
-            <i class="el-icon-full-screen"></i>
-          </router-link>
-        </p>
-        <Radar></Radar>
-        <span class="top-left border-span"></span>
-        <span class="top-right border-span"></span>
-        <span class="bottom-left border-span"></span>
-        <span class="bottom-right border-span"></span>
-      </div> -->
-
-      <!-- <div class="border-container show-view">
-        <Trend></Trend>
-        <span class="top-left border-span"></span>
-        <span class="top-right border-span"></span>
-        <span class="bottom-left border-span"></span>
-        <span class="bottom-right border-span"></span>
-      </div> -->
     </div>
   </div>
 </template>
 
 <script>
-let Pie = () => import("../../components/echarts/pie/Pie.vue");
-let FourPie = () => import("../../components/echarts/pie/FourPie.vue");
-let Pline = () => import("../../components/echarts/line/Line.vue");
 let Map = () => import("../../components/echarts/map/Map.vue");
-// let Radar = () => import("../../components/echarts/radar/Radar.vue");
-let Trend = () => import("../../components/echarts/line/TempLine.vue");
-// let Rotation = () => import("../../components/echarts/other/Rotation.vue");
-let Clock = () => import("../../components/echarts/other/Clock.vue");
-let Table = () => import("../../components/echarts/other/Table.vue");
+let Table = () => import("../../components/echarts/table/Table.vue");
+let FourPie = () => import("../../components/echarts/pie/FourPie.vue");
+let InputPie = () => import("../../components/echarts/pie/InputPie.vue");
+let Weather = () => import("../../components/echarts/other/Weather.vue");
+let TempLine = () => import("../../components/echarts/line/TempLine.vue");
+let BlightPie = () => import("../../components/echarts/pie/BlightPie.vue");
+let NumberLine = () => import("../../components/echarts/line/NumberLine.vue");
 export default {
   name: "show",
-  props: {
-    nums: Number
-  },
-  data() {
-    return {
-      pageStyle: {
-        height: "100%"
-      }
-    };
-  },
-  created() {
-    this.getClientHeight();
-  },
   components: {
-    // Rotation,
-    Pie,
-    Clock,
-    Pline,
-    Table,
     Map,
-    Trend,
-    FourPie
-  },
-  methods: {
-    getClientHeight() {
-      let clientHeight = document.documentElement
-        ? document.documentElement.clientHeight
-        : document.body.clientHeight;
-      this.pageStyle.height = clientHeight - 125 + "px";
-    }
-  },
-  mounted() {
-    this.getClientHeight();
-    let pd_this = this;
-    // 监听浏览器窗口的变化
-    window.onresize = function() {
-      pd_this.getClientHeight();
-    };
+    Table,
+    Weather,
+    FourPie,
+    InputPie,
+    TempLine,
+    BlightPie,
+    NumberLine
   }
 };
 </script>
@@ -171,14 +123,6 @@ a:active {
 }
 #show {
   background: #111739;
-  .el-icon-full-screen {
-    // 全屏 icon 样式
-    font-size: 1.5rem;
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-  }
   .clearfix:before,
   .clearfix:after {
     display: table;
@@ -187,38 +131,13 @@ a:active {
   .clearfix:after {
     clear: both;
   }
-  .header {
-    height: 80px;
-    position: relative;
-    padding-top: 13px;
-    font-size: 36px;
-    color: #00ffff;
-    text-align: center;
-    background: url("./../../assets/images/bg.png") top center no-repeat;
-    a.a-access {
-      position: absolute;
-      right: 3%;
-      top: -18%;
-    }
-  }
   .main {
     padding: 0 20px 20px;
     .border-container {
-      .open {
-        width: 20%;
-        margin: auto;
-      }
       position: relative;
       margin-top: 15px;
       padding: 5px 5px 0 5px;
       border: 1px solid #54dcf2;
-      .el-icon-alisuoxiao {
-        font-size: 1.5rem;
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 2;
-      }
       span.border-span {
         display: block;
         position: absolute;
@@ -251,51 +170,6 @@ a:active {
       }
     }
   }
-  .button {
-    position: relative;
-    padding: 0.5em 1.5em;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    outline: none;
-    font-size: 18px;
-    margin: 1em 0.8em;
-  }
-  .button.type1 {
-    color: #00ffff;
-  }
-  .button.type1.type1::after,
-  .button.type1.type1::before {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 20%;
-    height: 20%;
-    border: 2px solid;
-    transition: all 0.6s ease;
-    border-radius: 2px;
-  }
-  .button.type1.type1::after {
-    bottom: 0;
-    right: 0;
-    border-top-color: transparent;
-    border-left-color: transparent;
-    border-bottom-color: #566473;
-    border-right-color: #566473;
-  }
-  .button.type1.type1::before {
-    top: 0;
-    left: 0;
-    border-bottom-color: transparent;
-    border-right-color: transparent;
-    border-top-color: #566473;
-    border-left-color: #566473;
-  }
-  .button.type1.type1:hover:after,
-  .button.type1.type1:hover:before {
-    width: 100%;
-    height: 100%;
-  }
   .show-view {
     float: left;
     color: #00ffff;
@@ -304,39 +178,43 @@ a:active {
   }
   .left {
     width: 29%;
-    .show-date {
+    .show-weather {
       width: 100%;
       height: 6rem;
     }
     .show-line {
       width: 100%;
-      height: 18rem;
+      height: 21rem;
     }
-    .show-pie {
+    .show-blight-pie {
       width: 100%;
-      height: 19.7rem;
+      height: 24.7rem;
     }
   }
   .center {
     width: 39%;
     .show-four-pie {
       width: 100%;
-      height: 8rem;
+      height: 10rem;
     }
     .show-map {
       width: 100%;
-      height: 37rem;
+      height: 43rem;
     }
   }
   .right {
     width: 26%;
     .show-table {
       width: 100%;
-      height: 16rem;
+      height: 15rem;
     }
     .show-radio {
       width: 100%;
-      height: 28.5rem;
+      height: 18.5rem;
+    }
+    .show-input {
+      width: 100%;
+      height: 18rem;
     }
   }
 }

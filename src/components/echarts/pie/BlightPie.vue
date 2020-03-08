@@ -110,7 +110,7 @@ export default {
   height: 100%;
   .title {
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
   }
   .index-menu,

@@ -7,47 +7,44 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios,axios);
 Vue.config.productionTip = false
 
-import axios1 from "axios"
-Vue.prototype.$axios = axios1;
-
 import 'element-ui/lib/theme-chalk/index.css';
 import {
+  Menu,
+  Icon,
+  Alert,
+  Table,
+  Button,
+  Submenu,
+  Message,
+  MenuItem,
   Dropdown,
+  Cascader,
+  MessageBox,
+  TableColumn,
   DropdownMenu,
   DropdownItem,
-  Menu,
-  Submenu,
-  MenuItem,
   MenuItemGroup,
-  Cascader,
-  Button,
-  Alert,
-  Icon,
-  MessageBox,
-  Message,
   Notification,
-  Table,
-  TableColumn,
 } from 'element-ui';
 
+Vue.use(Menu);
+Vue.use(Icon);
+Vue.use(Alert);
+Vue.use(Table);
+Vue.use(Button);
+Vue.use(Submenu);
+Vue.use(Cascader);
+Vue.use(MenuItem);
 Vue.use(Dropdown);
+Vue.use(TableColumn);
 Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
-Vue.use(Menu);
-Vue.use(Submenu);
-Vue.use(MenuItem);
 Vue.use(MenuItemGroup);
-Vue.use(Button);
-Vue.use(Alert);
-Vue.use(Icon);
-Vue.use(Cascader);
-Vue.use(Table);
-Vue.use(TableColumn);
-Vue.prototype.$alert = MessageBox.alert;
-Vue.prototype.$confirm = MessageBox.confirm;
-Vue.prototype.$prompt = MessageBox.prompt;
-Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
+Vue.prototype.$notify = Notification;
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$prompt = MessageBox.prompt;
+Vue.prototype.$confirm = MessageBox.confirm;
 
 new Vue({
   store,

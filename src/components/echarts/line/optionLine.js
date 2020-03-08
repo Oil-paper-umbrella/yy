@@ -5,18 +5,27 @@ class optionLineFun {
     this.data = data;
   }
   /**
-   * @namespace lineTooltip
-   * @param {字体加粗} weight 
-   * @param {字体大小} size 
-   * @author he
-   * create in 19-11-27
+   * @namespace lineYaxis
+   * @param {指标单位} indexUnit 
    */
-  lineTooltip(weight, size) {
-    let tooltip = {
-      trigger: 'axis',
-      textStyle: new optionPublicFun().textStyle(weight, size)
-    };
-    return tooltip;
+  lineYaxis(indexUnit) {
+    let yaxis = {
+      type: 'value',
+      axisLabel: {
+        formatter: '{value} '
+      },
+      axisLine: {
+        lineStyle: new optionPublicFun().lineStyle("#fff", 1)
+      },
+      textStyle: new optionPublicFun().textStyle("normal", 12),
+      nameTextStyle: new optionPublicFun().textStyle("normal", 12),
+      name: indexUnit,
+      splitLine: {
+        show: true,
+        lineStyle: new optionPublicFun().lineStyle("#1B283E", 1)
+      }
+    }
+    return yaxis
   }
   /**
    * @namespace lineDataZoom
@@ -45,6 +54,68 @@ class optionLineFun {
     return result;
   }
   /**
+   * @namespace lineTooltip
+   * @param {字体加粗} weight 
+   * @param {字体大小} size 
+   * @author he
+   * create in 19-11-27
+   */
+  lineTooltip(weight, size) {
+    let tooltip = {
+      trigger: 'axis',
+      textStyle: new optionPublicFun().textStyle(weight, size)
+    };
+    return tooltip;
+  }
+  /**
+   * @namespace lineSeriesData
+   * @param {进出方式} name 
+   * @param {数据} data 
+   */
+  lineSeriesData(name, data) {
+    let seriesData = 
+    {
+      name: name,
+      type: "line",
+      data: data
+    }
+    return seriesData;
+  }
+  /**
+   * @namespace lineSeries
+   * @param {进出方式} name 
+   * @param {线条颜色} itemColor 
+   * @param {数据} data 
+   */
+  lineSeries(unnormalData, normalData) {
+    let series = [
+      this.lineSeriesData("异常人数",  unnormalData),
+      this.lineSeriesData("正常人数", normalData),
+    ]
+    return series;
+  }
+  /**
+   * @namespace lineXaxis
+   * @param {季度} cycle 
+   * @param {18个地市同一季度的得分} indicatorValue 
+   */
+  lineXaxis(indicatorValue, indexCycle) {
+    let xaxis = {
+      axisLine: {
+        show: true,
+        lineStyle: new optionPublicFun().lineStyle("#fff", 1)
+      },
+      axisLabel: {
+        show: true,
+        textStyle: new optionPublicFun().textStyle("normal", 12),
+        nameTextStyle: new optionPublicFun().textStyle("normal", 12)
+      },
+      data: indicatorValue,//该指标的周期值（指标值）
+      name: indexCycle
+    }
+    return xaxis;
+  }
+  /**
    * @namespace lineLegend
    * @param {字体加粗} weight 
    * @param {字体大小} size 
@@ -62,81 +133,6 @@ class optionLineFun {
       textStyle: new optionPublicFun().textStyle(weight, size)
     }
     return legend;
-  }
-  /**
-   * @namespace lineXaxis
-   * @param {季度} cycle 
-   * @param {18个地市同一季度的得分} indicatorValue 
-   */
-  lineXaxis(indicatorValue, indexCycle) {
-    let xaxis = {
-      axisLine: {
-        show: true,
-        lineStyle: new optionPublicFun().lineStyle("#fff", 1)
-      },
-      axisLabel: {
-        show: true,
-        textStyle: new optionPublicFun().textStyle("normal", 12),
-        nameTextStyle: new optionPublicFun().textStyle("bold", 12)
-      },
-      data: indicatorValue,//该指标的周期值（指标值）
-      name: indexCycle
-    }
-    return xaxis;
-  }
-  /**
-   * @namespace lineYaxis
-   * @param {指标单位} indexUnit 
-   */
-  lineYaxis(indexUnit) {
-    let yaxis = {
-      type: 'value',
-      axisLabel: {
-        formatter: '{value} '
-      },
-      axisLine: {
-        lineStyle: new optionPublicFun().lineStyle("#fff", 1)
-      },
-      textStyle: new optionPublicFun().textStyle("normal", 12),
-      nameTextStyle: new optionPublicFun().textStyle("bold", 12),
-      name: indexUnit,
-      splitLine: {
-        show: true,
-        lineStyle: new optionPublicFun().lineStyle("#1B283E", 1)
-      },
-      min: 0
-    }
-    return yaxis
-  }
-
-  
-  /**
-   * @namespace lineSeriesData
-   * @param {进出方式} name 
-   * @param {数据} data 
-   */
-  lineSeriesData(name, data) {
-    let seriesData = 
-    {
-      name: name,
-      type: "line",
-      stack: "总量",
-      data: data
-    }
-    return seriesData;
-  }
-  /**
-   * @namespace lineSeries
-   * @param {进出方式} name 
-   * @param {线条颜色} itemColor 
-   * @param {数据} data 
-   */
-  lineSeries(unnormalData, normalData) {
-    let series = [
-      this.lineSeriesData("异常人数",  unnormalData),
-      this.lineSeriesData("正常人数", normalData),
-    ]
-    return series;
   }
 }
 

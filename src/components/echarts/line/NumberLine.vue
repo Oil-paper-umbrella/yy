@@ -1,38 +1,25 @@
 <template>
-  <div class="line-chart" v-bind:style="{ height: clientHeight }">
+  <div class="number-line-chart" :style="{ height: clientHeight }">
     <span>
       <i
         class="el-icon-arrow-right"
-        style="color: #E6A23C;font-weight: bold;"
       ></i
-      ><span class="title">各省人数变化：</span>
+      ><span class="chart-title">各省人数变化：</span>
     </span>
-    <div id="line-container"></div>
+    <div id="number-line-container"></div>
   </div>
 </template>
 
 <script>
 require("echarts/lib/chart/line");
-require("echarts/lib/component/tooltip");
-require("echarts/lib/component/legend");
-require("echarts/lib/component/legendScroll");
 require("echarts/lib/component/grid");
+require("echarts/lib/component/legend");
+require("echarts/lib/component/tooltip");
 require("echarts/lib/component/dataZoom");
-import optionPublicFun from "../../../utils/optionPublic.js";
+require("echarts/lib/component/legendScroll");
 import optionLineFun from "./optionLine.js";
 import bus from "../../../../public/eventBus.js"
-const defaultCityName = "河南";
-const selectedCity = {
-  福建: true,
-  河南: false,
-  云南: false,
-  浙江: false,
-  新疆: false,
-  西藏: false,
-  内蒙古: false,
-  青海: false,
-  陕西: false
-};
+import optionPublicFun from "../../../utils/optionPublic.js";
 const colors = [
   "#0000C6",
   "#009393",
@@ -47,19 +34,24 @@ const colors = [
   "#FFFF37",
   "#FF8F59"
 ];
+const selectedCity = {
+  福建: true,
+  河南: false,
+  云南: false,
+  浙江: false,
+  新疆: false,
+  西藏: false,
+  内蒙古: false,
+  青海: false,
+  陕西: false
+};
 export default {
-  name: "line-chart",
+  name: "number-line-chart",
   data() {
     return {
-      clientHeight: "100%",
       myChart: {},
-      lineStyle: {
-        weight: "bold",
-        size: 14,
-        orientData: "horizontal",
-        zoomHeight: "10"
-      },
-      flag: false,
+      clientHeight: "100%",
+      defaultCityName: "河南",
       dates: ["3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7"],
       datas: [
         {
@@ -97,49 +89,32 @@ export default {
   },
   created() {
     this.$nextTick(() => {
-      this.setLineStyle(this.flag);
       this.lineCharts();
     });
   },
   mounted() {
     bus.$on("cityName", (cityName) => {
-      console.log("oook",cityName);
+      console.log("ok-number-line",cityName);
     });
   },
   methods: {
-    setClient() {
-      let clientHeight = document.documentElement
-        ? document.documentElement.clientHeight
-        : document.body.clientHeight;
-      this.clientHeight = clientHeight - 125 + "px";
-    },
-    // 设置 折线图 样式
-    setLineStyle(flag) {
-      if (flag) {
-        this.lineStyle.weight = "normal";
-        this.lineStyle.size = 12;
-        this.lineStyle.orientData = "horizontal";
-        this.lineStyle.zoomHeight = "20";
-      }
-    },
     lineCharts() {
-      this.myChart = new optionPublicFun().init("line-container");
       let that = this;
-      let lineObj = this.lineStyle;
       let opLineFnc = new optionLineFun();
+      this.myChart = new optionPublicFun().init("number-line-container");
       let option = {
-        tooltip: opLineFnc.lineTooltip(lineObj.weight, lineObj.size),
+        tooltip: opLineFnc.lineTooltip("normal", 14),
         legend: opLineFnc.lineLegend(
-          lineObj.weight,
-          lineObj.size,
-          lineObj.orientData,
+          "normal",
+          12,
+          "horizontal",
           selectedCity
         ),
         color: colors,
         grid: {
           bottom: "17%"
         },
-        dataZoom: opLineFnc.lineDataZoom(lineObj.zoomHeight),
+        dataZoom: opLineFnc.lineDataZoom(20),
         xAxis: opLineFnc.lineXaxis(that.dates, "日期"),
         yAxis: opLineFnc.lineYaxis("人数"),
         series: that.datas
@@ -156,17 +131,12 @@ export default {
           that.myChart.setOption(
             new optionPublicFun().initSelectedCity(
               params,
-              defaultCityName,
+              that.defaultCityName,
               selectedCity,
               option
             )
           );
         }
-      });
-      this.myChart.on("click", params => {
-        this.$router.push({
-          path: "/whole/detailTable/" + params.name
-        });
       });
     },
   }
@@ -175,16 +145,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-.line-chart {
+.number-line-chart {
   width: 100%;
   height: 100%;
-  position: relative;
-  .title {
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  #line-container {
+  #number-line-container {
     width: 100%;
     height: 90%;
   }
