@@ -17,7 +17,7 @@ class optionPieFun {
     let toolTip = {
       trigger: 'item',
       textStyle: new optionPublicFun().textStyle("normal", 12),
-      formatter: "{b} : {c} ({d}%)"
+      formatter: "{b} : {c} 人 ({d}%)"
     }
     return toolTip;
   }
@@ -44,7 +44,7 @@ class optionPieFun {
     let result = [
       {
         type: 'pie',
-        radius: '80%',
+        radius: '83%',
         center: ['43%', '50%'],
         data: data,
         itemStyle: {

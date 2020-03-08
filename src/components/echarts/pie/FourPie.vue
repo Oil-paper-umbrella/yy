@@ -1,11 +1,8 @@
 <template>
   <div class="four-pie-chart" :style="{ height: clientHeight }">
     <div class="index-menu">
-      <i
-        class="el-icon-arrow-right"
-        style="color: #E6A23C;font-weight: bold;"
-      ></i
-      ><span class="title">疫情情况：</span>
+      <i class="el-icon-arrow-right"></i
+      ><span class="chart-title">疫情情况：</span>
       <span class="menu-name">地区：</span>
       <el-cascader
         v-model="checkedVal"
@@ -48,23 +45,29 @@
 </template>
 
 <script>
+require("echarts/lib/chart/pie");
+require("echarts/lib/component/legend");
+require("echarts/lib/component/tooltip");
 require("echarts/lib/component/tooltip");
 require("echarts/lib/component/visualMap");
-require("echarts/lib/chart/pie");
-require("echarts/lib/component/tooltip");
-require("echarts/lib/component/legend");
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 Vue.use(Vuex);
 Vue.prototype.$ajax = axios;
-import optionPublicFun from "../../../utils/optionPublic.js";
 import optionPieFun from "./optionPie.js";
+import optionPublicFun from "../../../utils/optionPublic.js";
 export default {
   name: "four-pie-chart",
   data() {
     return {
-      clientHeight: "100%",
+      flag: true,
+      getProvinceDataIndex: true,
+      pieCure: {},
+      pieDeath: {},
+      pieSuspect: {},
+      pieDiagnosis: {},
+      checkedVal: [0],
       allTimes: [
         {
           value: 0,
@@ -79,99 +82,89 @@ export default {
           label: "平顶山"
         }
       ],
-      checkedVal: [0],
-      pieDiagnosis: {},
-      pieSuspect: {},
-      pieCure: {},
-      pieDeath: {},
-      flag: true,
-      Diagnosissymbol: "+",
-      DiagnosisCount: null,
-      DiagnosisAdd: null,
-      Suspectsymbol: "+",
-      SuspectCount: null,
-      SuspectAdd: null,
-      Curesymbol: "+",
-      CureCount: null,
       CureAdd: null,
-      Deathsymbol: "+",
+      DeathAdd: null,
+      CureCount: null,
       DeathCount: null,
-      DeathAdd: null
+      SuspectAdd: null,
+      SuspectCount: null,
+      DiagnosisAdd: null,
+      DiagnosisCount: null,
+      Curesymbol: "+",
+      Deathsymbol: "+",
+      Suspectsymbol: "+",
+      Diagnosissymbol: "+",
+      clientHeight: "100%"
     };
   },
   created() {
     this.$nextTick(() => {
+      this.getChinaData();
       this.fourModulesPieCharts();
-      this.china();
     });
   },
   methods: {
-    china() {
-      this.flag = true;
+    getChinaData() {
       let that = this;
+      this.flag = true;
       axios.get("/yiqing/nCoV/api/overall", {}).then(
         response => {
           let rs = response.data;
           if (rs.success == true) {
             let data = rs.results[0];
-            that.DiagnosisCount = data.confirmedCount;
+            that.CureAdd = data.curedIncr;
+            that.DeathAdd = data.deadIncr;
+            that.CureCount = data.curedCount;
+            that.DeathCount = data.deadCount;
+            that.SuspectAdd = data.suspectedIncr;
             that.DiagnosisAdd = data.confirmedIncr;
             that.SuspectCount = data.suspectedCount;
-            that.SuspectAdd = data.suspectedIncr;
-            that.CureCount = data.curedCount;
-            that.CureAdd = data.curedIncr;
-            that.DeathCount = data.deadCount;
-            that.DeathAdd = data.deadIncr;
-            if (that.DeathAdd < 0) that.Deathsymbol = "-";
-            if (that.DiagnosisAdd < 0) that.Diagnosissymbol = "-";
-            if (that.SuspectAdd < 0) that.Suspectsymbol = "-";
+            that.DiagnosisCount = data.confirmedCount;
             if (that.CureAdd < 0) that.Curesymbol = "-";
+            if (that.DeathAdd < 0) that.Deathsymbol = "-";
+            if (that.SuspectAdd < 0) that.Suspectsymbol = "-";
+            if (that.DiagnosisAdd < 0) that.Diagnosissymbol = "-";
           }
         },
         rs => {
-          console.log("error", rs);
+          console.log("fourPie request is error", rs);
         }
       );
     },
-    province() {
-      this.flag = false;
+    getOtherData() {
       let that = this;
-      axios.get("/yiqing/nCoV/api/area?latest=1&province=河南省", {}).then(
+      this.flag = false;
+      axios.get("/yiqing/nCoV/api/area?latest=1&getProvinceData=河南省", {}).then(
         response => {
           let rs = response.data;
-          console.log("objectssss", rs);
+          console.log("datas", rs);
           if (rs.success == true) {
-            let data = rs.results[0];
-            that.DiagnosisCount = data.confirmedCount;
-            that.SuspectCount = data.suspectedCount;
+            let data = null;
+            if(that.getProvinceDataIndex) {
+              data = rs.results[0];
+            }else {
+              data = rs.results[0].cities[7];
+            }
             that.CureCount = data.curedCount;
             that.DeathCount = data.deadCount;
+            that.SuspectCount = data.suspectedCount;
+            that.DiagnosisCount = data.confirmedCount;
+          }else {
+          console.log("four pie request is error", rs.msg);
           }
         },
         rs => {
-          console.log("error", rs);
+          console.log("four pie request is error", rs);
         }
       );
     },
-    county() {
-      this.flag = false;
-      let that = this;
-      axios.get("/yiqing/nCoV/api/area?latest=1&province=河南省", {}).then(
-        response => {
-          let rs = response.data;
-          console.log("objectssss", rs);
-          if (rs.success == true) {
-            let data = rs.results[0].cities[7];
-            that.DiagnosisCount = data.confirmedCount;
-            that.SuspectCount = data.suspectedCount;
-            that.CureCount = data.curedCount;
-            that.DeathCount = data.deadCount;
-          }
-        },
-        rs => {
-          console.log("error", rs);
-        }
-      );
+    getProvinceData() {
+      this.getProvinceDataIndex = true;
+      this.getOtherData();
+    },
+    getCountyData() {
+      this.getProvinceDataIndex = false;
+      this.getOtherData();
     },
     pieOptions(name, color) {
       return {
@@ -180,27 +173,28 @@ export default {
     },
     // pie 数据渲染
     fourModulesPieCharts() {
-      this.pieDiagnosis = new optionPublicFun().init("pie-chart-diagnosis");
-      this.pieSuspect = new optionPublicFun().init("pie-chart-suspect");
       this.pieCure = new optionPublicFun().init("pie-chart-cure");
       this.pieDeath = new optionPublicFun().init("pie-chart-death");
-      this.pieDiagnosis.setOption(this.pieOptions("确诊", "#00ccfe"));
-      this.pieSuspect.setOption(this.pieOptions("疑似", "#FBC02D"));
+      this.pieSuspect = new optionPublicFun().init("pie-chart-suspect");
+      this.pieDiagnosis = new optionPublicFun().init("pie-chart-diagnosis");
       this.pieCure.setOption(this.pieOptions("治愈", "#67C23A"));
       this.pieDeath.setOption(this.pieOptions("死亡", "#FF5C6C"));
+      this.pieSuspect.setOption(this.pieOptions("疑似", "#FBC02D"));
+      this.pieDiagnosis.setOption(this.pieOptions("确诊", "#00ccfe"));
     }
   },
   watch: {
     checkedVal: {
       handler: function(val) {
         let data = val[0];
+        console.log("four pie",data);
         let that = this;
         if (data == 0) {
-          that.china();
+          that.getChinaData();
         } else if (data == 1) {
-          that.province();
+          that.getProvinceData();
         } else if (data == 2) {
-          that.county();
+          that.getCountyData();
         }
       }
     }
@@ -213,11 +207,6 @@ export default {
 .four-pie-chart {
   width: 100%;
   height: 100%;
-  .title {
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-  }
   .index-menu,
   .index-menu:hover {
     display: inline-block;

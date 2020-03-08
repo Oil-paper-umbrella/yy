@@ -6,6 +6,7 @@ import * as types from "../../store/types.js";
 
 let Show =()=>import("../../pages/whole/Show.vue");
 let DetailInfo =()=>import ('../../components/echarts/table/DetailInfo.vue');
+let UninputInfo =()=>import ('../../components/echarts/table/UninputInfo.vue');
 let TempPersonInfo =()=>import ('../../components/echarts/table/TempPersonInfo.vue');
 
 Vue.use(VueRouter);//全局注册路由
@@ -25,6 +26,11 @@ let routes = [
     path: '/whole/detailInfo/:personId',
     name: 'detailInfo',
     component: DetailInfo
+  },
+  {
+    path: '/whole/uninputInfo/:id',
+    name: 'uninputInfo',
+    component: UninputInfo
   }
 ];
 

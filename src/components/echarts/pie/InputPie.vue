@@ -1,10 +1,7 @@
 <template>
-  <div class="input-pie-chart" v-bind:style="{ height: clientHeight }">
-      <i
-        class="el-icon-arrow-right"
-        style="color: #E6A23C;font-weight: bold;"
-      ></i
-      ><span class="title">疫情比例：</span>
+  <div class="input-pie-chart" :style="{ height: clientHeight }">
+    <i class="el-icon-arrow-right"></i
+    ><span class="chart-title">疫情比例：</span>
     <div id="input-pie-container"></div>
   </div>
 </template>
@@ -13,15 +10,15 @@
 require("echarts/lib/chart/pie");
 require("echarts/lib/component/tooltip");
 require("echarts/lib/component/legend");
-import optionPublicFun from "../../../utils/optionPublic.js";
 import optionPieFun from "./optionPie.js";
-const colors = ["#3893E5", "#F6D54A", "#FF4343"];
+import optionPublicFun from "../../../utils/optionPublic.js";
+// const colors = ["#3893E5", "#F6D54A"];
 export default {
   name: "input-pie-chart",
   data() {
     return {
-      clientHeight: "100%",
       myChart: {},
+      clientHeight: "100%",
       datas: [
         { value: 5, name: "已录" },
         { value: 16, name: "未录" }
@@ -30,47 +27,29 @@ export default {
   },
   created() {
     this.$nextTick(() => {
-      this.inputPieCharts();
+      this.inputPieCharts(this.datas);
     });
-  },
-  mounted(){
-
   },
   methods: {
     // pie 数据渲染
-    inputPieCharts() {
-      this.myChart = new optionPublicFun().init("input-pie-container");
+    inputPieCharts(data) {
       let opPieFnc = new optionPieFun();
-      let that = this;
+      this.myChart = new optionPublicFun().init("input-pie-container");
       this.myChart.setOption({
         tooltip: opPieFnc.pieTooltip(),
         legend: opPieFnc.pieLegend(),
-        color: colors,
-        series: opPieFnc.pieSeries(that.datas)
+        // color: colors,
+        series: opPieFnc.pieSeries(data)
       });
-      // 饼图 级联
-      this.myChart.on("click", () => {
-        this.$router.push({
-          path: "/whole/detail"
-        });
+      // 饼图重新渲染
+      this.myChart.on("click", params => {
+        console.log(params);
+        /* this.$router.push({
+          path: "/whole/uninputInfo/" + that.time
+        }); */
       });
     }
   }
-  /* watch: {
-    checkedVal: {
-      handler: function(val) {
-        // let getApi = [getFourModual({ timeid: val[0] })];
-        // let resApi = [this.requestFourModualData];
-        // this.reqGetInfo(getApi, resApi);
-        if (val[0] == "line") {
-          this.$router.push({
-            // path: "/whole/provice/" + params.data.cityName
-            path: "/whole/line"
-          });
-        }
-      }
-    }
-  } */
 };
 </script>
 
@@ -79,11 +58,6 @@ export default {
 .input-pie-chart {
   width: 100%;
   height: 100%;
-  .title {
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-  }
   #input-pie-container {
     width: 100%;
     height: 96%;

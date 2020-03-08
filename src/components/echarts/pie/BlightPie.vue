@@ -1,11 +1,10 @@
 <template>
-  <div class="pie-chart" v-bind:style="{ height: clientHeight }">
+  <div class="blight-pie-chart" :style="{ height: clientHeight }">
     <div class="index-menu">
       <i
         class="el-icon-arrow-right"
-        style="color: #E6A23C;font-weight: bold;"
       ></i
-      ><span class="title">疫情比例：</span>
+      ><span class="chart-title">疫情比例：</span>
       <span class="menu-name">城市：</span>
       <el-cascader
         v-model="checkedVal"
@@ -13,24 +12,23 @@
         size="small"
       ></el-cascader>
     </div>
-    <div id="pie-container"></div>
+    <div id="blight-pie-container"></div>
   </div>
 </template>
 
 <script>
-import bus from "../../../../public/eventBus.js"
-import optionPublicFun from "../../../utils/optionPublic.js";
-import optionPieFun from "./optionPie.js";
-const colors = ["#3893E5", "#F6D54A", "#FF4343"];
 require("echarts/lib/chart/pie");
 require("echarts/lib/component/tooltip");
 require("echarts/lib/component/legend");
+import optionPieFun from "./optionPie.js";
+import optionPublicFun from "../../../utils/optionPublic.js";
+const colors = ["#3893E5", "#F6D54A", "#FF4343"];
 export default {
-  name: "pie-chart",
+  name: "blight-pie-chart",
   data() {
     return {
-      clientHeight: "100%",
       myChart: {},
+      clientHeight: "100%",
       allTimes: [
         {
           value: "henan",
@@ -49,39 +47,28 @@ export default {
       ],
       checkedVal: ["henan", "pingdingshan"],
       datas: [
-        { value: 5, name: "确诊病例" },
-        { value: 16, name: "疑似病例" },
+        { value: 5, name: "确诊" },
+        { value: 16, name: "疑似" },
         { value: 234, name: "正常" }
       ]
     };
   },
   created() {
     this.$nextTick(() => {
-      this.fourModulesPieCharts();
-    });
-  },
-  mounted(){
-    bus.$on("cityName", (cityName) => {
-      console.log("oook",cityName);
+      this.blightPieCharts();
     });
   },
   methods: {
     // pie 数据渲染
-    fourModulesPieCharts() {
-      this.myChart = new optionPublicFun().init("pie-container");
-      let opPieFnc = new optionPieFun();
+    blightPieCharts() {
       let that = this;
+      let opPieFnc = new optionPieFun();
+      this.myChart = new optionPublicFun().init("blight-pie-container");
       this.myChart.setOption({
         tooltip: opPieFnc.pieTooltip(),
         legend: opPieFnc.pieLegend(),
         color: colors,
         series: opPieFnc.pieSeries(that.datas)
-      });
-      // 饼图 级联
-      this.myChart.on("click", () => {
-        this.$router.push({
-          path: "/whole/detail"
-        });
       });
     }
   }
@@ -105,14 +92,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-.pie-chart {
+.blight-pie-chart {
   width: 100%;
   height: 100%;
-  .title {
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-  }
   .index-menu,
   .index-menu:hover {
     display: inline-block;
@@ -133,7 +115,7 @@ export default {
       color: #60c1de;
     }
   }
-  #pie-container {
+  #blight-pie-container {
     width: 100%;
     height: 96%;
   }
