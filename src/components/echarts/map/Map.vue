@@ -344,12 +344,13 @@ export default {
           teacher: 0
         }
       ],
+      data: null
     };
   },
   created() {
     this.$nextTick(() => {
       this.name = this.$route.params.name;
-      this.mapCharts();
+      this.mapCharts(this.dataChina);
     });
   },
   methods: {
@@ -360,7 +361,9 @@ export default {
         axios
           .get("http://127.0.0.1:8083/js/" + map.mapId + ".json", {})
           .then(response => {
+            bus.$emit("cityName", map.mapName);
             this.jsonData = response.data;
+            this.data = this.dataChina;
             registerAndsetOption(
               this.myChart,
               map.mapId,
@@ -376,52 +379,9 @@ export default {
       }
     },
     change() {
-      this.dataChina = [
-        {
-          name: "拉萨市",
-          value: 0,
-          student: 0,
-          teacher: 0
-        },
-        {
-          name: "日喀则市",
-          value: 54,
-          student: 0,
-          teacher: 0
-        },
-        {
-          name: "昌都市",
-          value: 13,
-          student: 0,
-          teacher: 0
-        },
-        {
-          name: "山南市",
-          value: 40,
-          student: 0,
-          teacher: 0
-        },
-        {
-          name: "那曲地区",
-          value: 75,
-          student: 0,
-          teacher: 0
-        },
-        {
-          name: "阿里地区",
-          value: 13,
-          student: 0,
-          teacher: 0
-        },
-        {
-          name: "林芝市",
-          value: 83,
-          student: 0,
-          teacher: 0
-        }
-      ];
+      this.data = this.dataXizang;
     },
-    mapCharts() {
+    mapCharts(data) {
       let that = this;
       bus.$emit("cityName", this.cityName);
       this.myChart = new optionPublicFun().init("map-container");
@@ -431,7 +391,7 @@ export default {
           that.mapJson = response.data;
           that.jsonData = that.mapJson;
           parentId = that.id;
-          (parentName = "china"), that.request(false, that.dataChina);
+          (parentName = "china"), that.request(false, data);
           that.myChart.on("click", params => {
             that.name = params.name;
             that.cityName = that.name;
@@ -439,7 +399,7 @@ export default {
             if (that.id) {
               that.id = cityMap[params.name];
               that.change();
-              that.request(true, that.dataChina);
+              that.request(true, that.data);
             } else {
               mapStack = [];
               parentId = that.id;
@@ -514,7 +474,8 @@ function registerAndsetOption(myChart, id, name, mapJson, data, flag) {
   }
   .backBtn {
     position: absolute;
-    top: 25%;
+    top: 5%;
+    left: 2%;
     background-color: #00c298;
     border: 0;
     color: #fff;

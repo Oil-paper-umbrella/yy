@@ -27,11 +27,12 @@ class optionPieFun {
    * @param {字体大小} size 
    * @param {leng定位} legendRight 
    */
-  pieLegend() {
+  pieLegend(type, top) {
     let legend = {
-      orient: 'vertical',
+      type: 'scroll',
+      orient: type,
       right: "-5",
-      top: '30%',
+      top: top,
       textStyle: new optionPublicFun().textStyle("normal", 12)
     }
     return legend;
@@ -40,11 +41,11 @@ class optionPieFun {
    * @namespace pieSeries
    * @param {判断饼图类型} type 
    */
-  pieSeries(data) {
+  pieSeries(radius,data) {
     let result = [
       {
         type: 'pie',
-        radius: '83%',
+        radius: radius,
         center: ['43%', '50%'],
         data: data,
         itemStyle: {
@@ -57,70 +58,6 @@ class optionPieFun {
       }
     ]
     return result;
-  }
-  
-  /**
-   * @namespace fourPieSeriesData
-   * @param {饼图名称} name 
-   * @param {色系} color 
-   * @param {内圈半径} radiusX 
-   * @param {内圈半径} radiusY 
-   */
-  fourPieSeriesData(name, color, radiusX, radiusY){
-    let seriesData = {
-      name: name,
-      type: "pie",
-      clockWise: true,
-      hoverAnimation: false,
-      radius: [radiusX, radiusY],
-      label: {
-        normal: {
-          position: "center"
-        }
-      },
-      data: [
-        {
-          value: 1,
-          label: {
-            normal: {
-              formatter: name,
-              textStyle: {
-                color: color,
-                fontSize: 16
-              }
-            }
-          },
-          itemStyle: {
-            normal: {
-              color: color,
-              borderColor: color,
-              borderWidth: 2
-            }
-          },
-          tooltip: {
-            backgroundColor: "rgba(0,0,0,0)",
-            textStyle: {
-              color: "rgba(0,0,0,0)"
-            }
-          }
-        }
-      ]
-    }
-    return seriesData;
-  }
-  /**
-   * @namespace fourPieSeries
-   * @param {饼图名称} name 
-   * @param {色系} color 
-   * @param {内圈半径} radiusX 
-   * @param {内圈半径} radiusY 
-   */
-  fourPieSeries(name, color, radiusX1, radiusY1){
-    let series = [
-      this.fourPieSeriesData(name, color, radiusX1, radiusX1),
-      this.fourPieSeriesData(name, color, radiusY1, radiusY1)
-    ]
-    return series;
   }
 }
 export default optionPieFun;

@@ -1,10 +1,8 @@
 <template>
   <div class="number-line-chart" :style="{ height: clientHeight }">
     <span>
-      <i
-        class="el-icon-arrow-right"
-      ></i
-      ><span class="chart-title">各省人数变化：</span>
+      <i class="el-icon-arrow-right"></i
+      ><span class="chart-title">居住地人数变化：</span>
     </span>
     <div id="number-line-container"></div>
   </div>
@@ -34,17 +32,6 @@ const colors = [
   "#FFFF37",
   "#FF8F59"
 ];
-const selectedCity = {
-  福建: true,
-  河南: false,
-  云南: false,
-  浙江: false,
-  新疆: false,
-  西藏: false,
-  内蒙古: false,
-  青海: false,
-  陕西: false
-};
 export default {
   name: "number-line-chart",
   data() {
@@ -53,7 +40,7 @@ export default {
       clientHeight: "100%",
       defaultCityName: "河南",
       dates: ["3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7"],
-      datas: [
+      dataChina: [
         {
           name: "河南",
           type: "line",
@@ -84,21 +71,83 @@ export default {
           stack: "总量",
           data: [0, 1, 1, 1, 0, 1, 0]
         }
-      ]
+      ],
+      dataProvince: [
+        {
+          name: "阿里地区",
+          type: "line",
+          stack: "总量",
+          data: [0, 0, 0, 0, 1, 0, 1]
+        },
+        {
+          name: "日喀则市",
+          type: "line",
+          stack: "总量",
+          data: [12, 10, 1, 2, 5, 2, 10]
+        },
+        {
+          name: "那曲地区",
+          type: "line",
+          stack: "总量",
+          data: [21, 2, 10, 5, 1, 10, 0]
+        },
+        {
+          name: "拉萨市",
+          type: "line",
+          stack: "总量",
+          data: [15, 3, 10, 1, 5, 3, 0]
+        },
+        {
+          name: "林芝市",
+          type: "line",
+          stack: "总量",
+          data: [10, 1, 1, 1, 10, 21, 0]
+        },
+        {
+          name: "昌都市",
+          type: "line",
+          stack: "总量",
+          data: [0, 11, 10, 5, 0, 1, 0]
+        }
+      ],
+      selectedCity: null,
+      selectedChina: {
+        福建: true,
+        河南: false,
+        云南: false,
+        浙江: false,
+        新疆: false,
+        西藏: false,
+        内蒙古: false,
+        青海: false,
+        陕西: false
+      },
+      selectedProvince: {
+        "阿里地区": true,
+        "日喀则市": false,
+        "那曲地区": false,
+        "拉萨市": false,
+        "林芝市": false,
+        "昌都市": false
+      },
+      data: null
     };
-  },
-  created() {
-    this.$nextTick(() => {
-      this.lineCharts();
-    });
   },
   mounted() {
     bus.$on("cityName", (cityName) => {
-      console.log("ok-number-line",cityName);
+      console.log("object lines",cityName);
+      if(cityName == "china"){
+        this.data = this.dataChina;
+        this.selectedCity = this.selectedChina;
+      }else if(cityName == "西藏"){
+        this.data = this.dataProvince;
+        this.selectedCity = this.selectedProvince;
+      }
+      this.lineCharts(this.data);
     });
   },
   methods: {
-    lineCharts() {
+    lineCharts(data) {
       let that = this;
       let opLineFnc = new optionLineFun();
       this.myChart = new optionPublicFun().init("number-line-container");
@@ -108,7 +157,7 @@ export default {
           "normal",
           12,
           "horizontal",
-          selectedCity
+          that.selectedCity
         ),
         color: colors,
         grid: {
@@ -117,7 +166,7 @@ export default {
         dataZoom: opLineFnc.lineDataZoom(20),
         xAxis: opLineFnc.lineXaxis(that.dates, "日期"),
         yAxis: opLineFnc.lineYaxis("人数"),
-        series: that.datas
+        series: data
       };
       this.myChart.setOption(option);
       // legend发生变化事件
@@ -132,7 +181,7 @@ export default {
             new optionPublicFun().initSelectedCity(
               params,
               that.defaultCityName,
-              selectedCity,
+              that.selectedCity,
               option
             )
           );

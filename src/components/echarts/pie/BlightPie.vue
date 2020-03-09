@@ -1,17 +1,9 @@
 <template>
   <div class="blight-pie-chart" :style="{ height: clientHeight }">
-    <div class="index-menu">
-      <i
-        class="el-icon-arrow-right"
-      ></i
-      ><span class="chart-title">疫情比例：</span>
-      <span class="menu-name">城市：</span>
-      <el-cascader
-        v-model="checkedVal"
-        :options="allTimes"
-        size="small"
-      ></el-cascader>
-    </div>
+    <span>
+      <i class="el-icon-arrow-right"></i
+      ><span class="chart-title">疫情分析：</span>
+    </span>
     <div id="blight-pie-container"></div>
   </div>
 </template>
@@ -21,6 +13,7 @@ require("echarts/lib/chart/pie");
 require("echarts/lib/component/tooltip");
 require("echarts/lib/component/legend");
 import optionPieFun from "./optionPie.js";
+import bus from "../../../../public/eventBus.js"
 import optionPublicFun from "../../../utils/optionPublic.js";
 const colors = ["#3893E5", "#F6D54A", "#FF4343"];
 export default {
@@ -46,47 +39,43 @@ export default {
         }
       ],
       checkedVal: ["henan", "pingdingshan"],
-      datas: [
+      dataChina: [
         { value: 5, name: "确诊" },
         { value: 16, name: "疑似" },
         { value: 234, name: "正常" }
-      ]
+      ],
+      dataProvice: [
+        { value: 1, name: "确诊" },
+        { value: 1, name: "疑似" },
+        { value: 200, name: "正常" }
+      ],
+      data: null
     };
   },
-  created() {
-    this.$nextTick(() => {
-      this.blightPieCharts();
+  mounted() {
+    bus.$on("cityName", (cityName) => {
+      console.log("cityname pie", cityName);
+      if(cityName == "china"){
+        this.data = this.dataChina;
+      }else if(cityName == "西藏"){
+        this.data = this.dataProvice;
+      }
+      this.blightPieCharts(this.data);
     });
   },
   methods: {
     // pie 数据渲染
-    blightPieCharts() {
-      let that = this;
+    blightPieCharts(data) {
       let opPieFnc = new optionPieFun();
       this.myChart = new optionPublicFun().init("blight-pie-container");
       this.myChart.setOption({
         tooltip: opPieFnc.pieTooltip(),
-        legend: opPieFnc.pieLegend(),
+        legend: opPieFnc.pieLegend('vertical', '30%'),
         color: colors,
-        series: opPieFnc.pieSeries(that.datas)
+        series: opPieFnc.pieSeries('83%', data)
       });
     }
   }
-  /* watch: {
-    checkedVal: {
-      handler: function(val) {
-        // let getApi = [getFourModual({ timeid: val[0] })];
-        // let resApi = [this.requestFourModualData];
-        // this.reqGetInfo(getApi, resApi);
-        if (val[0] == "line") {
-          this.$router.push({
-            // path: "/whole/provice/" + params.data.cityName
-            path: "/whole/line"
-          });
-        }
-      }
-    }
-  } */
 };
 </script>
 

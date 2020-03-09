@@ -29,15 +29,16 @@
         </div>
       </div>
       <div class="show-view center">
-        <div class="border-container">
-          <!-- 疫病人数饼图模块 -->
-          <div class="show-four-pie">
-            <FourPie></FourPie>
-          </div>
+        <div class="border-container show-map">
+          <Map></Map>
+          <span class="top-left border-span"></span>
+          <span class="top-right border-span"></span>
+          <span class="bottom-left border-span"></span>
+          <span class="bottom-right border-span"></span>
+        </div>
+        <div class="border-container show-person-num">
           <!-- 全校师生分布地图模块 -->
-          <div class="show-map">
-            <Map></Map>
-          </div>
+            <PersonNum></PersonNum>
           <span class="top-left border-span"></span>
           <span class="top-right border-span"></span>
           <span class="bottom-left border-span"></span>
@@ -77,7 +78,7 @@
 <script>
 let Map = () => import("../../components/echarts/map/Map.vue");
 let Table = () => import("../../components/echarts/table/Table.vue");
-let FourPie = () => import("../../components/echarts/pie/FourPie.vue");
+let PersonNum = () => import("../../components/echarts/line/PersonNum.vue");
 let InputPie = () => import("../../components/echarts/pie/InputPie.vue");
 let Weather = () => import("../../components/echarts/other/Weather.vue");
 let TempLine = () => import("../../components/echarts/line/TempLine.vue");
@@ -89,11 +90,11 @@ export default {
     Map,
     Table,
     Weather,
-    FourPie,
     InputPie,
     TempLine,
+    PersonNum,
     BlightPie,
-    NumberLine
+    NumberLine,
   }
 };
 </script>
@@ -193,13 +194,13 @@ a:active {
   }
   .center {
     width: 39%;
-    .show-four-pie {
+    .show-person-num {
       width: 100%;
-      height: 10rem;
+      height: 22.6rem;
     }
     .show-map {
       width: 100%;
-      height: 43rem;
+      height: 30rem;
     }
   }
   .right {

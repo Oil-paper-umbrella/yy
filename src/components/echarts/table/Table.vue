@@ -68,7 +68,7 @@ export default {
     rowClick() {
       let that = this;
       this.$router.push({
-        path: "/whole/detailTable/" + that.time
+        path: "/whole/tempPersonInfo/" + that.time
       });
     }
   }

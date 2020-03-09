@@ -1,12 +1,12 @@
 <template>
-  <div class="temp-line-chart" :style="{ height: clientHeight }">
+  <div class="outer-line-chart" :style="{ height: clientHeight }">
     <div>
       <i
         class="el-icon-arrow-right"
       ></i
-      ><span class="chart-title">人数趋势图：</span>
+      ><span class="chart-title">外出人数：</span>
     </div>
-    <div id="temp-line-container"></div>
+    <div id="outer-line-container"></div>
   </div>
 </template>
 
@@ -21,13 +21,13 @@ import optionLineFun from "./optionLine.js";
 import optionPublicFun from "../../../utils/optionPublic.js";
 const colors = ["#3893E5", "#FF4343"];
 export default {
-  name: "temp-line-chart",
+  name: "outer-line-chart",
   data() {
     return {
       myChart: {},
       clientHeight: "100%",
-      unnormalData: [10, 20, 11, 15, 17, 19, 51],
-      normalData: [22, 70, 111, 571, 440, 360, 10],
+      outerData: [10, 20, 11, 15, 17, 19, 51],
+      enterData: [22, 70, 111, 571, 440, 360, 10],
       dates: ["3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7"]
     };
   },
@@ -40,7 +40,7 @@ export default {
     tempLineCharts() {
       let that = this;
       let opLineFnc = new optionLineFun();
-      this.myChart = new optionPublicFun().init("temp-line-container");
+      this.myChart = new optionPublicFun().init("outer-line-container");
       let option = {
         tooltip: opLineFnc.lineTooltip("normal", 12),
         color: colors,
@@ -52,12 +52,12 @@ export default {
         dataZoom: opLineFnc.lineDataZoom(20),
         xAxis: opLineFnc.lineXaxis(that.dates, "日期"),
         yAxis: opLineFnc.lineYaxis("人数"),
-        series: opLineFnc.lineSeries(that.unnormalData, that.normalData, "温度正常", "温度异常")
+        series: opLineFnc.lineSeries(that.outerData, that.enterData, "外出", "非外出")
       };
       this.myChart.setOption(option);
       this.myChart.on("click", params => {
         this.$router.push({
-          path: "/whole/tempPersonInfo/" + params.name
+          path: "/whole/outPersonInfo/" + params.name
         });
       });
     }
@@ -67,10 +67,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-.temp-line-chart {
+.outer-line-chart {
   width: 100%;
   height: 100%;
-  #temp-line-container {
+  #outer-line-container {
     width: 100%;
     height: 90%;
   }

@@ -87,10 +87,10 @@ class optionLineFun {
    * @param {线条颜色} itemColor 
    * @param {数据} data 
    */
-  lineSeries(unnormalData, normalData) {
+  lineSeries(data1, data, name1, name2 ) {
     let series = [
-      this.lineSeriesData("异常人数",  unnormalData),
-      this.lineSeriesData("正常人数", normalData),
+      this.lineSeriesData(name1,  data1),
+      this.lineSeriesData(name2, data)
     ]
     return series;
   }

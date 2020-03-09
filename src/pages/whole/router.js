@@ -8,6 +8,7 @@ let Show =()=>import("../../pages/whole/Show.vue");
 let DetailInfo =()=>import ('../../components/echarts/table/DetailInfo.vue');
 let UninputInfo =()=>import ('../../components/echarts/table/UninputInfo.vue');
 let TempPersonInfo =()=>import ('../../components/echarts/table/TempPersonInfo.vue');
+let OutPersonInfo =()=>import ('../../components/echarts/table/OutPersonInfo.vue')
 
 Vue.use(VueRouter);//全局注册路由
 
@@ -31,6 +32,11 @@ let routes = [
     path: '/whole/uninputInfo/:id',
     name: 'uninputInfo',
     component: UninputInfo
+  },
+  {
+    path: '/whole/outPersonInfo/:time',
+    name: 'outPersonInfo',
+    component: OutPersonInfo
   }
 ];
 

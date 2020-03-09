@@ -2,32 +2,19 @@
   <div class="uninputTable" :style="{ height: clientHeight }">
     <el-table :data="uninputInfo" border style="width: 100%" class="uninputInfo">
       <el-table-column prop="name" label="姓名" width="90"> </el-table-column>
-      <el-table-column prop="temperature" label="体温/℃" show-overflow-tooltip>
+      <el-table-column prop="Professional" label="专业班级" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="address" label="住址" width="180">
+      <el-table-column prop="dormitoryNum" label="宿舍号" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="Diagnosis" label="是否确诊" show-overflow-tooltip>
+      <el-table-column prop="dormitorManName" label="宿舍长姓名" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="outDoor" label="是否外出"> </el-table-column
-      ><el-table-column
-        prop="Contact"
-        label="是否接触患病人员"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="dormitorManTel" label="宿舍长联系电话" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="quarantine" label="是否隔离" show-overflow-tooltip>
+      <el-table-column prop="instructor" label="辅导员" width="180">
       </el-table-column>
-      <el-table-column prop="hospitalization" label="是否住院">
+      <el-table-column prop="selfTel" label="本人电话" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column
-        prop="relative"
-        label="亲人是否确诊"
-        show-overflow-tooltip
-      >
-      </el-table-column>
-      <el-table-column prop="school" label="是否返平" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column prop="village" label="小区是否有确诊人员">
+      <el-table-column prop="parentTel" label="紧急联系人电话" show-overflow-tooltip>
       </el-table-column>
     </el-table>
   </div>
@@ -41,70 +28,35 @@ export default {
       clientHeight: "100%",
       uninputInfo: [
         {
-          temperature: "38.5",
           name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          Diagnosis: "是",
-          outDoor: "否",
-          Contact: "是",
-          quarantine: "否",
-          hospitalization: "否",
-          relative: "否",
-          school: "否",
-          village: "否"
+          Professional: "17学前一班",
+          dormitoryNum: "3号楼 311",
+          dormitorManName: "李四",
+          dormitorManTel: 13155443325,
+          instructor: "王五",
+          selfTel: 13155443325,
+          parentTel: 18545443325
         },
         {
-          temperature: "38.5",
           name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          Diagnosis: "是",
-          outDoor: "否",
-          Contact: "是",
-          quarantine: "否",
-          hospitalization: "否",
-          relative: "否",
-          school: "否",
-          village: "否"
+          Professional: "教师教育学院",
+          dormitoryNum: "3号楼 311",
+          dormitorManName: "李四",
+          dormitorManTel: 13155443325,
+          instructor: "王五",
+          selfTel: 13155443325,
+          parentTel: 18545443325
         },
         {
-          temperature: "38.5",
           name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          Diagnosis: "是",
-          outDoor: "否",
-          Contact: "是",
-          quarantine: "否",
-          hospitalization: "否",
-          relative: "否",
-          school: "否",
-          village: "否"
+          Professional: "教师教育学院",
+          dormitoryNum: "3号楼 311",
+          dormitorManName: "李四",
+          dormitorManTel: 13155443325,
+          instructor: "王五",
+          selfTel: 13155443325,
+          parentTel: 18545443325
         },
-        {
-          temperature: "38.5",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          Diagnosis: "是",
-          outDoor: "否",
-          Contact: "是",
-          quarantine: "否",
-          hospitalization: "否",
-          relative: "否",
-          school: "否",
-          village: "否"
-        },
-        {
-          temperature: "38.5",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          Diagnosis: "是",
-          outDoor: "否",
-          Contact: "是",
-          quarantine: "否",
-          hospitalization: "否",
-          relative: "否",
-          school: "否",
-          village: "否"
-        }
       ]
     };
   },
