@@ -1,10 +1,14 @@
 <template>
   <div class="outer-line-chart" :style="{ height: clientHeight }">
-    <div>
-      <i
-        class="el-icon-arrow-right"
-      ></i
-      ><span class="chart-title">外出人数：</span>
+    <div class="index-menu">
+      <i class="el-icon-arrow-right"></i
+      ><span class="chart-title">统计{{ role }}外出情况：</span>
+      <el-cascader
+        v-model="checkedVal"
+        :options="allIndexs"
+        size="small"
+        class="cascader-style"
+      ></el-cascader>
     </div>
     <div id="outer-line-container"></div>
   </div>
@@ -24,15 +28,28 @@ export default {
   name: "outer-line-chart",
   data() {
     return {
+      role: null,
       myChart: {},
       clientHeight: "100%",
       outerData: [10, 20, 11, 15, 17, 19, 51],
       enterData: [22, 70, 111, 571, 440, 360, 10],
-      dates: ["3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7"]
+      dates: ["3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7"],
+      allIndexs: [
+        {
+          label: "学生",
+          value: 0
+        },
+        {
+          label: "教师",
+          value: 1
+        }
+      ],
+      checkedVal: [0],
     };
   },
   created() {
     this.$nextTick(() => {
+      this.role = this.allIndexs[this.checkedVal[0]].label;
       this.tempLineCharts();
     });
   },
@@ -42,24 +59,43 @@ export default {
       let opLineFnc = new optionLineFun();
       this.myChart = new optionPublicFun().init("outer-line-container");
       let option = {
-        tooltip: opLineFnc.lineTooltip("normal", 12),
+        tooltip: opLineFnc.lineTooltip("normal", 12, "人"),
         color: colors,
         legend: {
           right: 10,
           top: 8,
           textStyle: new optionPublicFun().textStyle("normal", 12)
         },
-        dataZoom: opLineFnc.lineDataZoom(20),
-        xAxis: opLineFnc.lineXaxis(that.dates, "日期"),
-        yAxis: opLineFnc.lineYaxis("人数"),
-        series: opLineFnc.lineSeries(that.outerData, that.enterData, "外出", "非外出")
+        dataZoom: opLineFnc.lineDataZoom(20, 10),
+        xAxis: opLineFnc.lineXaxis("normal", 14, that.dates, "日期"),
+        yAxis: opLineFnc.lineYaxis("normal", 14, "人数"),
+        series: opLineFnc.lineSeries(
+          that.outerData, 
+          "外出",
+          that.enterData,
+          "非外出"
+        )
       };
       this.myChart.setOption(option);
       this.myChart.on("click", params => {
-        this.$router.push({
-          path: "/whole/outPersonInfo/" + params.name
-        });
+        if (this.role == "学生") {
+          this.$router.push({
+            path: "/whole/outStudentTable/" + params.name + "/" + this.role
+          });
+        } else if (this.role == "教师") {
+          this.$router.push({
+            path: "/whole/outTeacherTable/" + params.name + "/" + this.role
+          });
+        }
       });
+    }
+  },
+  watch: {
+    checkedVal: {
+      handler: function(val) {
+        this.role = this.allIndexs[val[0]].label;
+        console.log(val);
+      }
     }
   }
 };
@@ -70,6 +106,9 @@ export default {
 .outer-line-chart {
   width: 100%;
   height: 100%;
+  .cascader-style {
+    width: 30%;
+  }
   #outer-line-container {
     width: 100%;
     height: 90%;

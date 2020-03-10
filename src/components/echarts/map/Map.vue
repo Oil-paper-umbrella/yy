@@ -2,6 +2,10 @@
   <div class="map-chart" :style="{ height: clientHeight }">
     <div class="box">
       <button class="backBtn" @click="back()">返回上级</button>
+      <span
+        ><i class="el-icon-arrow-right"></i
+        ><span class="chart-title">{{ title }}师生人口分布：</span>
+      </span>
       <div id="map-container" class="chart"></div>
     </div>
   </div>
@@ -31,6 +35,7 @@ export default {
     return {
       clientHeight: "100%",
       myChart: {},
+      title: null,
       id: 100000,
       name: "china",
       jsonData: null,
@@ -349,6 +354,7 @@ export default {
   },
   created() {
     this.$nextTick(() => {
+      this.title = "全国各省";
       this.name = this.$route.params.name;
       this.mapCharts(this.dataChina);
     });
@@ -362,6 +368,11 @@ export default {
           .get("http://127.0.0.1:8083/js/" + map.mapId + ".json", {})
           .then(response => {
             bus.$emit("cityName", map.mapName);
+            if (map.mapName == "china") {
+              this.title = "全国各省";
+            } else {
+              this.title = map.mapName;
+            }
             this.jsonData = response.data;
             this.data = this.dataChina;
             registerAndsetOption(
@@ -391,12 +402,14 @@ export default {
           that.mapJson = response.data;
           that.jsonData = that.mapJson;
           parentId = that.id;
-          (parentName = "china"), that.request(false, data);
+          parentName = "china";
+          that.request(false, data);
           that.myChart.on("click", params => {
             that.name = params.name;
             that.cityName = that.name;
             bus.$emit("cityName", that.cityName);
             if (that.id) {
+              this.title = params.name + "省各市";
               that.id = cityMap[params.name];
               that.change();
               that.request(true, that.data);
@@ -474,7 +487,7 @@ function registerAndsetOption(myChart, id, name, mapJson, data, flag) {
   }
   .backBtn {
     position: absolute;
-    top: 5%;
+    top: 8%;
     left: 2%;
     background-color: #00c298;
     border: 0;
@@ -488,7 +501,7 @@ function registerAndsetOption(myChart, id, name, mapJson, data, flag) {
   }
   #map-container {
     width: 100%;
-    height: 100%;
+    height: 95%;
   }
 }
 </style>

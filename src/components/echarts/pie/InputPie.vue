@@ -1,7 +1,15 @@
 <template>
   <div class="input-pie-chart" :style="{ height: clientHeight }">
-    <i class="el-icon-arrow-right"></i
-    ><span class="chart-title">{{ title }}信息录入情况：</span>
+    <div class="index-menu">
+      <i class="el-icon-arrow-right"></i
+      ><span class="chart-title">统计{{ role }}{{ state }}情况：</span>
+      <el-cascader
+        v-model="checkedVal"
+        :options="allIndexs"
+        size="small"
+        class="cascader-style"
+      ></el-cascader>
+    </div>
     <div id="input-pie-container"></div>
   </div>
 </template>
@@ -12,13 +20,25 @@ require("echarts/lib/component/tooltip");
 require("echarts/lib/component/legend");
 import optionPieFun from "./optionPie.js";
 import optionPublicFun from "../../../utils/optionPublic.js";
-// const colors = ["#3893E5", "#F6D54A"];
 export default {
   name: "input-pie-chart",
   data() {
     return {
+      data: null,
+      role: null,
+      state: null,
       myChart: {},
       clientHeight: "100%",
+      allIndexs: [
+        {
+          label: "学生",
+          value: 0
+        },
+        {
+          label: "教师",
+          value: 1
+        }
+      ],
       dataSchool: [
         { value: 5, name: "已录" },
         { value: 16, name: "未录" }
@@ -31,19 +51,14 @@ export default {
         { value: 85, name: "教师教育学院" },
         { value: 10, name: "电气与自动化学院" }
       ],
-      dataGrade: [
-        { value: 5, name: "17级" },
-        { value: 116, name: "16级" },
-        { value: 51, name: "18级" }
-      ],
-      data: null,
-      title: null
+      checkedVal: [0]
     };
   },
   created() {
     this.$nextTick(() => {
-      this.title = "全校师生";
+      this.state = "录入";
       this.data = this.dataSchool;
+      this.role = this.allIndexs[this.checkedVal[0]].label;
       this.inputPieCharts(this.data);
     });
   },
@@ -54,37 +69,35 @@ export default {
       this.myChart = new optionPublicFun().init("input-pie-container");
       this.myChart.setOption({
         tooltip: opPieFnc.pieTooltip(),
-        legend: opPieFnc.pieLegend("horizontal", "0"),
-        // color: colors,
-        series: opPieFnc.pieSeries("68%", data)
+        legend: opPieFnc.pieLegend("horizontal", "-5", "0"),
+        series: opPieFnc.pieSeries("68%", "43%", "50%", data)
       });
       // 饼图重新渲染
       this.myChart.on("click", params => {
+        this.state = "未录入";
         if (params.name == "未录" || params.name == "已录") {
-          this.title = "所有院系师生";
           this.data = this.dataDepartment;
-        } else if (
-          params.name == "16级" ||
-          params.name == "17级" ||
-          params.name == "16级"
-        ) {
-          console.log(params.name,"aa");
-          this.$router.push({
-            path: "/whole/uninputInfo/" + params.name
-          });
+          this.inputPieCharts(this.data);
         } else {
-          this.title = params.name + "师生";
-          this.data = this.dataGrade;
+          if (this.role == "学生") {
+            this.$router.push({
+              path: "/whole/uninputStudentPie/" + params.name
+            });
+          } else if (this.role == "教师") {
+            this.$router.push({
+              path: "/whole/teacherInfo/" + params.name + "/true"
+            });
+          }
         }
-        console.log(this.index, params);
-        this.inputPieCharts(this.data);
-        /* this.$router.push({
-          path: "/whole/uninputInfo/" + that.time
-        }); */
-        /* else if (params.name == "计算机学院(软件学院)") {
-          this.data = this.dataGrade;
-        } */
       });
+    }
+  },
+  watch: {
+    checkedVal: {
+      handler: function(val) {
+        this.role = this.allIndexs[val[0]].label;
+        console.log(val);
+      }
     }
   }
 };

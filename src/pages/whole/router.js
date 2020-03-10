@@ -5,10 +5,17 @@ import store from "../../store/store.js";
 import * as types from "../../store/types.js";
 
 let Show =()=>import("../../pages/whole/Show.vue");
-let DetailInfo =()=>import ('../../components/echarts/table/DetailInfo.vue');
-let UninputInfo =()=>import ('../../components/echarts/table/UninputInfo.vue');
-let TempPersonInfo =()=>import ('../../components/echarts/table/TempPersonInfo.vue');
-let OutPersonInfo =()=>import ('../../components/echarts/table/OutPersonInfo.vue')
+let OuterInfo =()=>import ('../../components/echarts/info/OuterInfo.vue');
+let UninputStuTable =()=>import ('../../components/echarts/table/UninputStuTable');
+let OutStudentTable =()=>import ('../../components/echarts/table/OutStudentTable.vue');
+let OutTeacherTable =()=>import ('../../components/echarts/table/OutTeacherTable.vue');
+let TeacherInfo =()=>import ('../../components/echarts/info/TeacherInfo.vue');
+let TempStudentTable =()=>import ('../../components/echarts/table/TempStudentTable.vue');
+let UninputStudentPie =()=>import ('../../components/echarts/pie/UninputStudentPie.vue');
+let DormitoryInfo =()=>import ('../../components/echarts/info/DormitoryInfo.vue');
+let TimetableInfo =()=>import ('../../components/echarts/info/TimetableInfo.vue');
+let StudentTempLine =()=>import ('../../components/echarts/line/StudentTempLine.vue');
+let TempTeacherTable =()=>import ('../../components/echarts/table/TempTeacherTable.vue');
 
 Vue.use(VueRouter);//全局注册路由
 
@@ -19,24 +26,59 @@ let routes = [
     component: Show
   },
   {
-    path: '/whole/tempPersonInfo/:time',
-    name: 'tempPersonInfo',
-    component: TempPersonInfo
+    path: '/whole/tempStudentTable/:time/:role',
+    name: 'tempStudentTable',
+    component: TempStudentTable
   },
   {
-    path: '/whole/detailInfo/:personId',
-    name: 'detailInfo',
-    component: DetailInfo
+    path: '/whole/outerInfo/:personId',
+    name: 'outerInfo',
+    component: OuterInfo
   },
   {
-    path: '/whole/uninputInfo/:id',
-    name: 'uninputInfo',
-    component: UninputInfo
+    path: '/whole/uninputStuTable/:department/:grade',
+    name: 'uninputStuTable',
+    component: UninputStuTable
   },
   {
-    path: '/whole/outPersonInfo/:time',
-    name: 'outPersonInfo',
-    component: OutPersonInfo
+    path: '/whole/outStudentTable/:time/:role',
+    name: 'outStudentTable',
+    component: OutStudentTable
+  },
+  {
+    path: '/whole/outTeacherTable/:time/:role',
+    name: 'outTeacherTable',
+    component: OutTeacherTable
+  },
+  {
+    path: '/whole/teacherInfo/:department/:flag',
+    name: 'teacherInfo',
+    component: TeacherInfo
+  },
+  {
+    path: '/whole/uninputStudentPie/:department',
+    name: 'uninputStudentPie',
+    component: UninputStudentPie
+  },
+  {
+    path: '/whole/dormitoryInfo/:dormitoryNum',
+    name: 'dormitoryInfo',
+    component: DormitoryInfo
+  },
+  {
+    path: '/whole/timeTableInfo/:classNo',
+    name: 'timeTableInfo',
+    component: TimetableInfo
+  },
+  {
+    path: '/whole/studentTempLine/:name/:role',
+    name: 'studentTempLine',
+    component: StudentTempLine
+  },
+  {
+    path: '/whole/tempTeacherTable/:time/:role',
+    name: 'tempTeacherTable',
+    component: TempTeacherTable
   }
 ];
 

@@ -23,17 +23,29 @@ class optionPieFun {
   }
   /**
    * @namespace pieLegend
-   * @param {字体加粗} weight 
-   * @param {字体大小} size 
-   * @param {leng定位} legendRight 
+   * @param {排列方式} type 
+   * @param {右边} right 
+   * @param {顶部} top 
    */
-  pieLegend(type, top) {
-    let legend = {
-      type: 'scroll',
-      orient: type,
-      right: "-5",
+  pieLegend(type, right, top) {
+    let legend = null;
+    let verticalLegend = {
+      orient: "vertical",
+      right: right,
       top: top,
       textStyle: new optionPublicFun().textStyle("normal", 12)
+    };
+    let horizontalLegend = {
+      orient: "horizontal",
+      type: 'scroll',
+      right: right,
+      top: top,
+      textStyle: new optionPublicFun().textStyle("normal", 12)
+    }
+    if(type == "vertical") {
+      legend = verticalLegend;
+    }else if(type == "horizontal"){
+      legend = horizontalLegend;
     }
     return legend;
   }
@@ -41,22 +53,20 @@ class optionPieFun {
    * @namespace pieSeries
    * @param {判断饼图类型} type 
    */
-  pieSeries(radius,data) {
-    let result = [
-      {
-        type: 'pie',
-        radius: radius,
-        center: ['43%', '50%'],
-        data: data,
-        itemStyle: {
-          emphasis: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
-          }
+  pieSeries(radius, centerX, centerY, data) {
+    let result = [{
+      type: 'pie',
+      radius: radius,
+      center: [centerX, centerY],
+      data: data,
+      itemStyle: {
+        emphasis: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
         }
       }
-    ]
+    }]
     return result;
   }
 }

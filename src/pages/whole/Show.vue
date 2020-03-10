@@ -38,7 +38,7 @@
         </div>
         <div class="border-container show-person-num">
           <!-- 全校师生分布地图模块 -->
-            <PersonNum></PersonNum>
+          <OuterPerson></OuterPerson>
           <span class="top-left border-span"></span>
           <span class="top-right border-span"></span>
           <span class="bottom-left border-span"></span>
@@ -48,7 +48,7 @@
       <div class="show-view right">
         <!-- 今日体温测量表格 -->
         <div class="border-container show-table">
-          <Table></Table>
+          <TodayTempTable></TodayTempTable>
           <span class="top-left border-span"></span>
           <span class="top-right border-span"></span>
           <span class="bottom-left border-span"></span>
@@ -77,8 +77,8 @@
 
 <script>
 let Map = () => import("../../components/echarts/map/Map.vue");
-let Table = () => import("../../components/echarts/table/Table.vue");
-let PersonNum = () => import("../../components/echarts/line/PersonNum.vue");
+let TodayTempTable = () => import("../../components/echarts/table/TodayTempTable.vue");
+let OuterPerson = () => import("../../components/echarts/line/OuterPerson.vue");
 let InputPie = () => import("../../components/echarts/pie/InputPie.vue");
 let Weather = () => import("../../components/echarts/other/Weather.vue");
 let TempLine = () => import("../../components/echarts/line/TempLine.vue");
@@ -88,13 +88,13 @@ export default {
   name: "show",
   components: {
     Map,
-    Table,
+    TodayTempTable,
     Weather,
     InputPie,
     TempLine,
-    PersonNum,
+    OuterPerson,
     BlightPie,
-    NumberLine,
+    NumberLine
   }
 };
 </script>
@@ -121,6 +121,26 @@ a:active {
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 0;
   background-color: rgba(0, 0, 0, 0.1);
+}
+.cascader-style {
+  width: 30%;
+}
+.index-menu,
+.index-menu:hover {
+  display: inline-block !important;
+  margin: 0 10px;
+  .el-input__inner {
+    background-color: #111739;
+    border: 1px solid #60c1de;
+    color: #fff;
+  }
+  .el-input__inner:hover {
+    border: 1px solid #60c1de;
+  }
+  .menu-name {
+    font-size: 13px;
+    color: #60c1de;
+  }
 }
 #show {
   background: #111739;
@@ -185,7 +205,7 @@ a:active {
     }
     .show-line {
       width: 100%;
-      height: 21rem;
+      height: 22rem;
     }
     .show-blight-pie {
       width: 100%;
@@ -196,18 +216,18 @@ a:active {
     width: 39%;
     .show-person-num {
       width: 100%;
-      height: 22.6rem;
+      height: 20.6rem;
     }
     .show-map {
       width: 100%;
-      height: 30rem;
+      height: 33rem;
     }
   }
   .right {
     width: 26%;
     .show-table {
       width: 100%;
-      height: 15rem;
+      height: 16rem;
     }
     .show-radio {
       width: 100%;

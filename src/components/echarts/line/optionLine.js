@@ -8,7 +8,7 @@ class optionLineFun {
    * @namespace lineYaxis
    * @param {指标单位} indexUnit 
    */
-  lineYaxis(indexUnit) {
+  lineYaxis(weight, size, indexUnit) {
     let yaxis = {
       type: 'value',
       axisLabel: {
@@ -17,8 +17,8 @@ class optionLineFun {
       axisLine: {
         lineStyle: new optionPublicFun().lineStyle("#fff", 1)
       },
-      textStyle: new optionPublicFun().textStyle("normal", 12),
-      nameTextStyle: new optionPublicFun().textStyle("normal", 12),
+      textStyle: new optionPublicFun().textStyle(weight, size),
+      nameTextStyle: new optionPublicFun().textStyle(weight, size),
       name: indexUnit,
       splitLine: {
         show: true,
@@ -30,8 +30,9 @@ class optionLineFun {
   /**
    * @namespace lineDataZoom
    * @param {zoomData 高度} zoomHeight 
+   * @param {bottom 高度} bottom 
    */
-  lineDataZoom(zoomHeight) {
+  lineDataZoom(zoomHeight, bottom) {
     let result = [
       {
         handleStyle: {
@@ -41,11 +42,11 @@ class optionLineFun {
           shadowOffsetX: 2,
           shadowOffsetY: 2
         },
-        textStyle: {
+        textStyle: { 
           color: '#fff'
         },
         height: zoomHeight,
-        bottom: 0
+        bottom: bottom
       },
       {
         type: 'inside'
@@ -60,10 +61,11 @@ class optionLineFun {
    * @author he
    * create in 19-11-27
    */
-  lineTooltip(weight, size) {
+  lineTooltip(weight, size, unit) {
     let tooltip = {
       trigger: 'axis',
-      textStyle: new optionPublicFun().textStyle(weight, size)
+      textStyle: new optionPublicFun().textStyle(weight, size),
+      formatter: '{b}<br />{a}: {c}' + unit
     };
     return tooltip;
   }
@@ -87,7 +89,7 @@ class optionLineFun {
    * @param {线条颜色} itemColor 
    * @param {数据} data 
    */
-  lineSeries(data1, data, name1, name2 ) {
+  lineSeries(data1, name1, data, name2 ) {
     let series = [
       this.lineSeriesData(name1,  data1),
       this.lineSeriesData(name2, data)
@@ -99,7 +101,7 @@ class optionLineFun {
    * @param {季度} cycle 
    * @param {18个地市同一季度的得分} indicatorValue 
    */
-  lineXaxis(indicatorValue, indexCycle) {
+  lineXaxis(weight, size, indicatorValue, indexCycle) {
     let xaxis = {
       axisLine: {
         show: true,
@@ -107,8 +109,8 @@ class optionLineFun {
       },
       axisLabel: {
         show: true,
-        textStyle: new optionPublicFun().textStyle("normal", 12),
-        nameTextStyle: new optionPublicFun().textStyle("normal", 12)
+        textStyle: new optionPublicFun().textStyle(weight, size),
+        nameTextStyle: new optionPublicFun().textStyle(weight, size)
       },
       data: indicatorValue,//该指标的周期值（指标值）
       name: indexCycle

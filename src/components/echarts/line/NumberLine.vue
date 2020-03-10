@@ -2,7 +2,7 @@
   <div class="number-line-chart" :style="{ height: clientHeight }">
     <span>
       <i class="el-icon-arrow-right"></i
-      ><span class="chart-title">居住地人数变化：</span>
+      ><span class="chart-title">{{title}}人数变化：</span>
     </span>
     <div id="number-line-container"></div>
   </div>
@@ -36,6 +36,8 @@ export default {
   name: "number-line-chart",
   data() {
     return {
+      data: null,
+      title: null,
       myChart: {},
       clientHeight: "100%",
       defaultCityName: "河南",
@@ -130,16 +132,16 @@ export default {
         "林芝市": false,
         "昌都市": false
       },
-      data: null
     };
   },
   mounted() {
     bus.$on("cityName", (cityName) => {
-      console.log("object lines",cityName);
       if(cityName == "china"){
+        this.title = "全国各省";
         this.data = this.dataChina;
         this.selectedCity = this.selectedChina;
       }else if(cityName == "西藏"){
+        this.title = cityName + "省各市";
         this.data = this.dataProvince;
         this.selectedCity = this.selectedProvince;
       }
@@ -152,7 +154,7 @@ export default {
       let opLineFnc = new optionLineFun();
       this.myChart = new optionPublicFun().init("number-line-container");
       let option = {
-        tooltip: opLineFnc.lineTooltip("normal", 14),
+        tooltip: opLineFnc.lineTooltip("normal", 14, "人"),
         legend: opLineFnc.lineLegend(
           "normal",
           12,
@@ -163,9 +165,9 @@ export default {
         grid: {
           bottom: "17%"
         },
-        dataZoom: opLineFnc.lineDataZoom(20),
-        xAxis: opLineFnc.lineXaxis(that.dates, "日期"),
-        yAxis: opLineFnc.lineYaxis("人数"),
+        dataZoom: opLineFnc.lineDataZoom(20, 10),
+        xAxis: opLineFnc.lineXaxis("normal", 12, that.dates, "日期"),
+        yAxis: opLineFnc.lineYaxis("normal", 12, "人数"),
         series: data
       };
       this.myChart.setOption(option);
